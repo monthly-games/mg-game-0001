@@ -1,0 +1,67 @@
+{
+  "version": "0.1.0",
+  "currencies": {
+    "gold": {
+      "display_name": "골드",
+      "icon": "assets/icons/gold.png",
+      "initial_amount": 1000,
+      "sources": {
+        "stage_clear": {
+          "base": 100,
+          "per_level_bonus": 10
+        },
+        "idle_income": {
+          "base_per_hour": 50,
+          "max_accumulation_hours": 8
+        },
+        "daily_quest": {
+          "amount": 500
+        }
+      },
+      "sinks": {
+        "equipment_upgrade": {
+          "base_cost": 100,
+          "level_multiplier": 1.5
+        },
+        "skill_upgrade": {
+          "base_cost": 200,
+          "level_multiplier": 1.8
+        }
+      }
+    },
+    "gems": {
+      "display_name": "보석",
+      "icon": "assets/icons/gem.png",
+      "initial_amount": 100,
+      "iap_packages": [
+        { "gems": 100, "price_usd": 0.99 },
+        { "gems": 500, "price_usd": 4.99 },
+        { "gems": 1200, "price_usd": 9.99 },
+        { "gems": 3000, "price_usd": 19.99 },
+        { "gems": 8000, "price_usd": 49.99 }
+      ]
+    },
+    "energy": {
+      "display_name": "에너지",
+      "icon": "assets/icons/energy.png",
+      "max_amount": 100,
+      "regen_minutes": 5,
+      "stage_cost": 10
+    }
+  },
+  "gacha": {
+    "standard_banner": {
+      "cost": { "currency": "gems", "amount": 300 },
+      "ten_pull_cost": { "currency": "gems", "amount": 2700 },
+      "rates": {
+        "legendary": 0.02,
+        "epic": 0.08,
+        "rare": 0.30,
+        "common": 0.60
+      },
+      "pity_system": {
+        "legendary_pity": 100
+      }
+    }
+  }
+}

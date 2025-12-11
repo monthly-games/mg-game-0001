@@ -1,0 +1,64 @@
+{
+  "version": "0.1.0",
+  "chapters": [
+    {
+      "chapter_id": 1,
+      "name": "시작의 던전",
+      "stages": [
+        {
+          "stage_id": "1-1",
+          "name": "첫 번째 방",
+          "type": "normal",
+          "energy_cost": 5,
+          "difficulty": 1,
+          "enemies": [
+            { "id": "slime_green", "count": 3 }
+          ],
+          "rewards": {
+            "gold": 50,
+            "exp": 10
+          },
+          "tutorial": true
+        },
+        {
+          "stage_id": "1-2",
+          "name": "좁은 통로",
+          "type": "normal",
+          "energy_cost": 5,
+          "difficulty": 1,
+          "enemies": [
+            { "id": "slime_green", "count": 2 },
+            { "id": "slime_blue", "count": 1 }
+          ],
+          "rewards": {
+            "gold": 60,
+            "exp": 12
+          }
+        },
+        {
+          "stage_id": "1-10",
+          "name": "던전의 문지기",
+          "type": "boss",
+          "energy_cost": 10,
+          "difficulty": 3,
+          "enemies": [
+            { "id": "boss_golem", "count": 1 }
+          ],
+          "rewards": {
+            "gold": 300,
+            "exp": 100,
+            "gems": 10,
+            "first_clear_reward": {
+              "equipment_id": "sword_basic"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "difficulty_scaling": {
+    "hp_per_level": 1.15,
+    "attack_per_level": 1.10,
+    "reward_per_level": 1.08
+  }
+}

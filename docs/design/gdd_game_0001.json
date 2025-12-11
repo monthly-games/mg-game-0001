@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "game_id": "game_0001",
+    "code_name": "MG-0001",
+    "title_kr": "던전 타이쿤 퍼즐RPG",
+    "title_en": "Dungeon Tycoon Puzzle RPG",
+    "version": "0.1.0",
+    "last_updated": "2025-01-01"
+  },
+  "overview": {
+    "genre_tags": ["puzzle", "idle", "jrpg"],
+    "target_audience": {
+      "age": "15-35",
+      "region": ["KR", "SEA"],
+      "play_style": "casual"
+    },
+    "core_loop": "퍼즐을 풀어 던전을 공략하고, 방치 수익으로 영웅을 성장시킨다",
+    "unique_selling_point": "퍼즐 전투와 방치 성장의 조화"
+  },
+  "gameplay": {
+    "core_mechanics": [
+      {
+        "name": "퍼즐 전투",
+        "description": "매치3 퍼즐로 스킬을 발동시켜 적을 공격"
+      },
+      {
+        "name": "방치 수익",
+        "description": "오프라인 시간 동안 자원 자동 획득"
+      },
+      {
+        "name": "영웅 성장",
+        "description": "레벨업, 장비, 스킬 강화 시스템"
+      }
+    ],
+    "progression": {
+      "type": "stage",
+      "description": "던전 스테이지를 순차적으로 공략"
+    },
+    "session_length": "5-10분"
+  },
+  "economy": {
+    "currencies": [
+      {
+        "name": "골드",
+        "type": "soft",
+        "sources": ["스테이지 클리어", "방치 수익", "퀘스트"],
+        "sinks": ["장비 강화", "스킬 업그레이드", "상점 구매"]
+      },
+      {
+        "name": "보석",
+        "type": "hard",
+        "sources": ["인앱 구매", "업적", "이벤트"],
+        "sinks": ["가챠", "에너지 충전", "골드 구매"]
+      },
+      {
+        "name": "에너지",
+        "type": "energy",
+        "max": 100,
+        "regen_rate": "1/5분",
+        "sources": ["시간 회복", "보석 구매", "광고"],
+        "sinks": ["스테이지 입장"]
+      }
+    ],
+    "monetization": {
+      "model": "F2P + IAP",
+      "iap_items": ["보석 패키지", "월정액", "스타터 팩"],
+      "ad_placements": ["보상형 광고 (에너지, 보상 2배)", "인터스티셜 (스테이지 사이)"]
+    }
+  },
+  "technical": {
+    "platform": ["Android", "iOS"],
+    "engine": "Flutter + Flame",
+    "backend": "Firebase",
+    "analytics": "GA4 + BigQuery"
+  }
+}
