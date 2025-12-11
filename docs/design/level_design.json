@@ -1,64 +1,40 @@
 {
   "version": "0.1.0",
-  "chapters": [
+  "levels": [
     {
-      "chapter_id": 1,
-      "name": "시작의 던전",
-      "stages": [
+      "id": 1,
+      "name": "First Defense",
+      "map_config": {
+        "grid_width": 10,
+        "grid_height": 15
+      },
+      "waves": [
         {
-          "stage_id": "1-1",
-          "name": "첫 번째 방",
-          "type": "normal",
-          "energy_cost": 5,
-          "difficulty": 1,
-          "enemies": [
-            { "id": "slime_green", "count": 3 }
-          ],
-          "rewards": {
-            "gold": 50,
-            "exp": 10
-          },
-          "tutorial": true
+          "wave_index": 1,
+          "monster_count": 5,
+          "spawn_interval": 1.5,
+          "monster_speed": 80.0,
+          "monster_hp": 80.0
         },
         {
-          "stage_id": "1-2",
-          "name": "좁은 통로",
-          "type": "normal",
-          "energy_cost": 5,
-          "difficulty": 1,
-          "enemies": [
-            { "id": "slime_green", "count": 2 },
-            { "id": "slime_blue", "count": 1 }
-          ],
-          "rewards": {
-            "gold": 60,
-            "exp": 12
-          }
+          "wave_index": 2,
+          "monster_count": 10,
+          "spawn_interval": 1.0,
+          "monster_speed": 100.0,
+          "monster_hp": 100.0
         },
         {
-          "stage_id": "1-10",
-          "name": "던전의 문지기",
-          "type": "boss",
-          "energy_cost": 10,
-          "difficulty": 3,
-          "enemies": [
-            { "id": "boss_golem", "count": 1 }
-          ],
-          "rewards": {
-            "gold": 300,
-            "exp": 100,
-            "gems": 10,
-            "first_clear_reward": {
-              "equipment_id": "sword_basic"
-            }
-          }
+          "wave_index": 3,
+          "monster_count": 15,
+          "spawn_interval": 0.8,
+          "monster_speed": 120.0,
+          "monster_hp": 150.0
         }
       ]
     }
   ],
-  "difficulty_scaling": {
-    "hp_per_level": 1.15,
-    "attack_per_level": 1.10,
-    "reward_per_level": 1.08
+  "balance": {
+    "initial_gold": 100,
+    "gold_per_kill": 10
   }
 }

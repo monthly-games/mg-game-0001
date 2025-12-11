@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "657316449788",
+    "project_id": "mg-game-0001",
+    "storage_bucket": "mg-game-0001.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657316449788:android:60a294c16ddfa87a633679",
+        "android_client_info": {
+          "package_name": "com.example.tower_defense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBposSkhdeVOx_uwirDUlbtvVO--rcOw_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
