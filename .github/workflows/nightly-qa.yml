@@ -1,0 +1,282 @@
+name: Nightly QA
+
+on:
+  schedule:
+    # Run at 3:00 AM KST (18:00 UTC previous day)
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      run_integration_tests:
+        description: 'Run integration tests'
+        required: false
+        default: true
+        type: boolean
+      run_performance_tests:
+        description: 'Run performance tests'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  FLUTTER_VERSION: '3.19.0'
+  JAVA_VERSION: '17'
+
+jobs:
+  analyze:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: game
+    outputs:
+      analyze_result: ${{ steps.analyze.outcome }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run analyzer
+        id: analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run dart format check
+        run: dart format --set-exit-if-changed lib/
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: game
+    outputs:
+      test_result: ${{ steps.test.outcome }}
+      coverage: ${{ steps.coverage.outputs.coverage }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests with coverage
+        id: test
+        run: |
+          flutter test --coverage --coverage-path=coverage/lcov.info
+
+      - name: Extract coverage percentage
+        id: coverage
+        run: |
+          if [ -f coverage/lcov.info ]; then
+            COVERAGE=$(lcov --summary coverage/lcov.info 2>/dev/null | grep "lines" | awk '{print $2}' | tr -d '%')
+            echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+          else
+            echo "coverage=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: game/coverage/
+
+  build-android:
+    name: Build Android (QA)
+    runs-on: ubuntu-latest
+    needs: [analyze, unit-tests]
+    defaults:
+      run:
+        working-directory: game
+    outputs:
+      build_result: ${{ steps.build.outcome }}
+      apk_size: ${{ steps.size.outputs.size }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK (Profile mode for size check)
+        id: build
+        run: flutter build apk --profile
+
+      - name: Check APK size
+        id: size
+        run: |
+          SIZE=$(stat -f%z build/app/outputs/flutter-apk/app-profile.apk 2>/dev/null || stat -c%s build/app/outputs/flutter-apk/app-profile.apk)
+          SIZE_MB=$(echo "scale=2; $SIZE / 1048576" | bc)
+          echo "size=$SIZE_MB" >> $GITHUB_OUTPUT
+
+          # Fail if APK exceeds 80MB
+          if (( $(echo "$SIZE_MB > 80" | bc -l) )); then
+            echo "::error::APK size ($SIZE_MB MB) exceeds limit (80 MB)"
+            exit 1
+          fi
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-apk
+          path: game/build/app/outputs/flutter-apk/app-profile.apk
+
+  performance-test:
+    name: Performance Test
+    runs-on: macos-latest
+    needs: [build-android]
+    if: github.event.inputs.run_performance_tests == 'true' || github.event_name == 'schedule'
+    defaults:
+      run:
+        working-directory: game
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run performance tests
+        run: |
+          flutter drive \
+            --driver=test_driver/perf_driver.dart \
+            --target=integration_test/perf_test.dart \
+            --profile \
+            --no-dds || true
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: |
+            game/build/perf_*.json
+            game/build/*.timeline.json
+
+  report:
+    name: Generate QA Report
+    runs-on: ubuntu-latest
+    needs: [analyze, unit-tests, build-android]
+    if: always()
+    steps:
+      - name: Download coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+        continue-on-error: true
+
+      - name: Generate report
+        id: report
+        run: |
+          # Generate markdown report
+          cat > qa_report.md << EOF
+          # Nightly QA Report
+
+          **Date:** $(date -u +"%Y-%m-%d %H:%M UTC")
+          **Game:** ${{ github.event.repository.name }}
+          **Branch:** ${{ github.ref_name }}
+          **Commit:** ${{ github.sha }}
+
+          ## Results
+
+          | Check | Status |
+          |-------|--------|
+          | Static Analysis | ${{ needs.analyze.outputs.analyze_result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | Unit Tests | ${{ needs.unit-tests.outputs.test_result == 'success' && '✅ Passed' || '❌ Failed' }} |
+          | Android Build | ${{ needs.build-android.outputs.build_result == 'success' && '✅ Passed' || '❌ Failed' }} |
+
+          ## Metrics
+
+          - **Code Coverage:** ${{ needs.unit-tests.outputs.coverage || 'N/A' }}%
+          - **APK Size:** ${{ needs.build-android.outputs.apk_size || 'N/A' }} MB
+
+          ## Guardrails
+
+          - [ ] APK Size < 80 MB
+          - [ ] Code Coverage > 60%
+          - [ ] No critical analyzer warnings
+
+          EOF
+
+          cat qa_report.md
+
+      - name: Upload QA report
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-report
+          path: qa_report.md
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "🌙 Nightly QA Report",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🌙 Nightly QA: ${{ github.event.repository.name }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Analysis:* ${{ needs.analyze.outputs.analyze_result == 'success' && '✅' || '❌' }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Tests:* ${{ needs.unit-tests.outputs.test_result == 'success' && '✅' || '❌' }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Build:* ${{ needs.build-android.outputs.build_result == 'success' && '✅' || '❌' }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Coverage:* ${{ needs.unit-tests.outputs.coverage || 'N/A' }}%"
+                    }
+                  ]
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
