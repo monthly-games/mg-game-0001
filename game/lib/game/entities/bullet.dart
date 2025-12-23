@@ -4,27 +4,32 @@ import 'monster.dart';
 
 import 'package:flame/collisions.dart';
 
-class Bullet extends PositionComponent with CollisionCallbacks {
+// Assuming HasGameRef is needed for gameRef.loadSprite
+
+import '../tower_defense_game.dart';
+
+class Bullet extends SpriteComponent
+    with CollisionCallbacks, HasGameReference<TowerDefenseGame> {
   final Monster target;
   final double speed = 300.0;
   final double damage;
+  final bool isSplash;
+  final bool appliesSlow;
+  final double splashRadius;
 
   Bullet({
     required Vector2 position,
     required this.target,
     required this.damage,
-  }) : super(position: position, size: Vector2.all(5), anchor: Anchor.center);
+    this.isSplash = false,
+    this.appliesSlow = false,
+    this.splashRadius = 80.0,
+  }) : super(position: position, size: Vector2.all(32), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
-    add(CircleHitbox());
-  }
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    final paint = Paint()..color = const Color(0xFFFFFF00); // Yellow
-    canvas.drawCircle(Offset(size.x / 2, size.y / 2), 3, paint);
+    sprite = await game.loadSprite('projectile_arrow.png');
+    add(CircleHitbox(radius: 5, position: size / 2, anchor: Anchor.center));
   }
 
   @override
@@ -37,7 +42,17 @@ class Bullet extends PositionComponent with CollisionCallbacks {
     }
 
     final direction = (target.position - position).normalized();
-    position += direction * speed * dt;
+    final distanceToTarget = position.distanceTo(target.position);
+    final step = speed * dt;
+
+    if (distanceToTarget <= step || distanceToTarget < 10.0) {
+      // Manual collision check to prevent tunneling or "stopping"
+      _applyDamage();
+      removeFromParent();
+      return;
+    }
+
+    position += direction * step;
   }
 
   @override
@@ -47,8 +62,28 @@ class Bullet extends PositionComponent with CollisionCallbacks {
   ) {
     super.onCollisionStart(intersectionPoints, other);
     if (other is Monster && other == target) {
-      other.takeDamage(damage);
+      _applyDamage();
       removeFromParent(); // Hit
+    }
+  }
+
+  void _applyDamage() {
+    if (isSplash) {
+      // Splash damage to all monsters in radius
+      final monsters = game.children.whereType<Monster>();
+      for (final monster in monsters) {
+        final dist = target.position.distanceTo(monster.position);
+        if (dist <= splashRadius) {
+          final splashDamage = damage * (1.0 - dist / splashRadius * 0.5);
+          monster.takeDamage(splashDamage);
+        }
+      }
+    } else {
+      target.takeDamage(damage);
+    }
+
+    if (appliesSlow) {
+      target.applySlow(0.5, 2.0); // 50% slow for 2 seconds
     }
   }
 }
