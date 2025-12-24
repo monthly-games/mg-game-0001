@@ -4,6 +4,7 @@ import '../tower_defense_game.dart';
 import '../entities/monster.dart';
 import '../entities/monster_type.dart';
 import 'map_system.dart';
+import 'stage_data.dart';
 
 class MonsterSpawn {
   final MonsterType type;
@@ -23,67 +24,66 @@ class WaveDefinition {
 
 class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
   final MapSystem mapSystem;
+  final StageInfo? stageInfo;
 
   int _stage = 1;
   List<WaveDefinition> _waves = [];
 
-  WaveManager({required this.mapSystem}) {
+  WaveManager({required this.mapSystem, this.stageInfo}) {
+    if (stageInfo != null) {
+      _stage = stageInfo!.stageNumber;
+    }
     _generateWavesForStage(_stage);
   }
 
   void _generateWavesForStage(int stage) {
     _waves.clear();
-    // Formula: Monster HP = Base * (1 + Stage * 0.15)
 
-    // Unlock Logic (Section 4.2 Content Progress)
-    // Stage 1-5: Basic
-    // Stage 6-10: + Fast
-    // Stage 11-15: + Tank
-    // Stage 16+: + Air
+    // Use stage info if available
+    final int waveCount = stageInfo?.waves ?? 10;
+    final double difficultyMult = stageInfo?.difficultyMultiplier ?? 1.0;
+    final List<MonsterType> allowedMonsters = stageInfo?.monsterTypes ?? [MonsterType.basic];
+    final bool hasBoss = stageInfo?.hasBoss ?? false;
 
-    final bool enableFast = stage >= 6;
-    final bool enableTank = stage >= 11;
-    final bool enableAir = stage >= 16;
-    // Section 4.2 says Boss Enhance 21+, but 1.3 says Boss Wave every 5.
-    // let's compromise: Bosses appear every 5 waves but are "Weak" until stage 21?
-    // Or just follow 4.2 STRICTLY?
-    // "New Element: Boss Enhance". Only implies they get stronger?
-    // Let's spawn Bosses at wave 5/10 regardless, but strictly gate types.
-
-    for (int wave = 1; wave <= 10; wave++) {
+    for (int wave = 1; wave <= waveCount; wave++) {
       final List<MonsterSpawn> spawns = [];
 
       // HP scaling is handled in spawnMonster
-      int totalCount = 5 + (wave * 2) + (stage * 1); // Slight stage scaling
+      int totalCount = (5 + (wave * 2) * difficultyMult).round();
 
-      if (wave % 5 == 0) {
-        // Boss Wave (5, 10)
-        spawns.add(MonsterSpawn(MonsterType.boss, 1));
-
-        // Minions
+      // Boss on final wave if hasBoss is true
+      if (hasBoss && wave == waveCount) {
+        spawns.add(const MonsterSpawn(MonsterType.boss, 1));
+        spawns.add(MonsterSpawn(MonsterType.basic, totalCount ~/ 2));
+      } else if (wave % 5 == 0 && wave < waveCount) {
+        // Mini-boss wave every 5 waves
+        spawns.add(MonsterSpawn(MonsterType.tank, 2));
         spawns.add(MonsterSpawn(MonsterType.basic, totalCount ~/ 2));
       } else {
-        // Normal Waves
-        // Distribution Pool
-        List<MonsterType> allowedTypes = [MonsterType.basic];
-        if (enableFast) allowedTypes.add(MonsterType.fast);
-        if (enableTank) allowedTypes.add(MonsterType.tank);
-        if (enableAir && wave >= 5)
-          allowedTypes.add(MonsterType.air); // Air only later in wave?
+        // Normal Waves - distribute among allowed types
+        if (allowedMonsters.isEmpty) {
+          spawns.add(MonsterSpawn(MonsterType.basic, totalCount));
+        } else {
+          // Filter out boss type from normal spawns
+          final normalTypes = allowedMonsters.where((t) => t != MonsterType.boss).toList();
+          if (normalTypes.isEmpty) {
+            spawns.add(MonsterSpawn(MonsterType.basic, totalCount));
+          } else {
+            int splitCount = totalCount ~/ normalTypes.length;
+            int remainder = totalCount % normalTypes.length;
 
-        // Distribute count among allowed types
-        int splitCount = totalCount ~/ allowedTypes.length;
-        int remainder = totalCount % allowedTypes.length;
-
-        for (final type in allowedTypes) {
-          spawns.add(MonsterSpawn(type, splitCount));
+            for (final type in normalTypes) {
+              spawns.add(MonsterSpawn(type, splitCount));
+            }
+            if (remainder > 0) {
+              spawns.add(MonsterSpawn(normalTypes.first, remainder));
+            }
+          }
         }
-        if (remainder > 0)
-          spawns.add(MonsterSpawn(MonsterType.basic, remainder));
       }
 
-      // Interval scaling
-      double interval = max(0.4, 1.5 - (wave * 0.1) - (min(stage, 20) * 0.02));
+      // Interval scaling based on difficulty
+      double interval = max(0.3, 1.5 - (wave * 0.1) - (difficultyMult * 0.1));
 
       _waves.add(WaveDefinition(spawns: spawns, spawnInterval: interval));
     }
@@ -158,12 +158,11 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
   }
 
   void _spawnMonster(MonsterType type) {
-    // Calculate Scaled Stats
-    // Monster HP = Base * (1 + Stage * 0.15)
+    // Calculate Scaled Stats using stage difficulty multiplier
     final stats = MonsterStats.get(type);
-    final hpMultiplier = 1.0 + (_stage * 0.15);
+    final difficultyMult = stageInfo?.difficultyMultiplier ?? 1.0;
+    final hpMultiplier = 1.0 + (_stage * 0.15) * difficultyMult;
     final scaledHp = stats.maxHp * hpMultiplier;
-    // Maybe speed increases slightly too?
 
     final monster = Monster(
       path: mapSystem.getPath(),

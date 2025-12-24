@@ -43,6 +43,12 @@ class _TutorialOverlayState extends State<TutorialOverlay>
       iconPosition: Alignment.bottomCenter,
     ),
     TutorialStep(
+      title: 'Upgrade Towers',
+      description: 'Tap a placed tower to upgrade it for more damage and range, or sell it for gold',
+      icon: Icons.upgrade,
+      iconPosition: Alignment.center,
+    ),
+    TutorialStep(
       title: 'Manage Your Economy',
       description: 'Earn gold by defeating monsters. Use it wisely to upgrade towers!',
       icon: Icons.monetization_on,

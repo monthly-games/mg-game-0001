@@ -17,6 +17,7 @@ import 'package:mg_common_game/systems/progression/achievement_manager.dart';
 import 'package:mg_common_game/systems/settings/settings_manager.dart';
 import 'package:mg_common_game/core/ui/screens/settings_screen.dart';
 import '../../main.dart'; // To access GamePage
+import 'stage_select_screen.dart';
 
 class LobbyScreen extends StatelessWidget {
   const LobbyScreen({super.key});
@@ -34,13 +35,24 @@ class LobbyScreen extends StatelessWidget {
             Image.asset('assets/images/logo.png', width: 400),
             const Spacer(flex: 1),
 
-            // Start Button
+            // Quick Start Button
             _buildMenuButton(
               context,
-              label: 'START DEFENSE',
+              label: 'QUICK START',
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const GamePage()),
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            // Stage Select Button
+            _buildMenuButton(
+              context,
+              label: 'SELECT STAGE',
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const StageSelectScreen()),
                 );
               },
             ),

@@ -14,6 +14,7 @@ import 'package:mg_common_game/systems/progression/achievement_manager.dart';
 import '../app_logger.dart';
 import 'core/map_system.dart';
 import 'core/wave_manager.dart';
+import 'core/stage_data.dart';
 import 'entities/tower.dart';
 import 'entities/tower_type.dart';
 import 'entities/ghost_tower.dart';
@@ -25,6 +26,9 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   final ProgressionManager progression = GetIt.I<ProgressionManager>();
   final AchievementManager achievements = GetIt.I<AchievementManager>();
 
+  final int stageNumber;
+  StageInfo? _stageInfo;
+
   int lives = 20;
   int _totalGoldEarned = 0;
   bool _buildMode = false;
@@ -33,13 +37,26 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   Tower? _selectedTower;
   double _gameSpeed = 1.0;
 
+  TowerDefenseGame({this.stageNumber = 1}) {
+    _stageInfo = StageData.getStage(stageNumber);
+    if (_stageInfo != null) {
+      lives = _stageInfo!.startingLives;
+    }
+  }
+
+  // Getter for stage info
+  StageInfo? get stageInfo => _stageInfo;
+
   // Getters for dialog
   int get totalGoldEarned => _totalGoldEarned;
   Tower? get selectedTower => _selectedTower;
 
-  // Victory condition: Survive 10 waves
-  static const int victoryWaveCount = 10;
-  static const int initialLives = 20;
+  // Victory condition: Survive all waves in stage
+  static const int victoryWaveCount = 10; // Default, overridden by stageInfo
+  static const int initialLives = 20; // Default, overridden by stageInfo
+
+  int get maxWaves => _stageInfo?.waves ?? victoryWaveCount;
+  int get maxLives => _stageInfo?.startingLives ?? initialLives;
 
   // Game speed control
   double get gameSpeed => _gameSpeed;
@@ -80,17 +97,17 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     await super.onLoad();
     logger.i('TowerDefenseGame Loaded!');
 
-    // Initialize Economy (Testing)
-    // Initialize Economy (Testing)
+    // Initialize Economy with stage starting gold
     final startGoldUpgrade = GetIt.I<UpgradeManager>().getUpgrade('start_gold');
     final bonusGold = startGoldUpgrade?.currentValue.toInt() ?? 0;
+    final baseGold = _stageInfo?.startingGold ?? 100;
 
     GetIt.I<GoldManager>().addGold(
-      100 + bonusGold,
-    ); // Start with 100 + Upgrade bonus
+      baseGold + bonusGold,
+    ); // Start with stage gold + Upgrade bonus
 
     GetIt.I<ToastManager>().show(
-      'Welcome! Tap "Build Tower" to start.',
+      'Stage $stageNumber: ${_stageInfo?.name ?? "Unknown"}',
       backgroundColor: AppColors.primary,
     );
 
@@ -99,8 +116,8 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
 
     camera.viewfinder.anchor = Anchor.topLeft;
 
-    // Wave Manager
-    waveManager = WaveManager(mapSystem: mapSystem);
+    // Wave Manager with stage info
+    waveManager = WaveManager(mapSystem: mapSystem, stageInfo: _stageInfo);
     add(waveManager);
   }
 

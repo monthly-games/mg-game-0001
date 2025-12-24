@@ -453,7 +453,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+  final int stageNumber;
+
+  const GamePage({super.key, this.stageNumber = 1});
 
   @override
   State<GamePage> createState() => _GamePageState();
@@ -466,7 +468,7 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    _game = TowerDefenseGame();
+    _game = TowerDefenseGame(stageNumber: widget.stageNumber);
     _checkTutorial();
   }
 
@@ -499,9 +501,9 @@ class _GamePageState extends State<GamePage> {
                       return MGGameHud(
                         gold: snapshot.data ?? 0,
                         wave: game.currentWave,
-                        maxWave: TowerDefenseGame.victoryWaveCount,
+                        maxWave: game.stageInfo?.waves ?? 10,
                         lives: game.lives,
-                        maxLives: TowerDefenseGame.initialLives,
+                        maxLives: game.stageInfo?.startingLives ?? 20,
                         isWaveActive: game.isWaveInProgress,
                         gameSpeed: game.gameSpeed,
                         onBuildTower: game.buildTower,
