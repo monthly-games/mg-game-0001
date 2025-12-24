@@ -1,9 +1,9 @@
 {
   "game_id": "game_0001",
   "code_name": "MG-0001",
-  "title_kr": "던전 타이쿤 퍼즐RPG",
-  "title_en": "Dungeon Tycoon Puzzle RPG",
-  "genre_tags": ["puzzle", "idle", "jrpg"],
+  "title_kr": "심플 타워 디펜스",
+  "title_en": "Simple Tower Defense",
+  "genre_tags": ["tower-defense", "strategy"],
   "target_region": ["KR", "SEA"],
   "engine_version": "1.0.0",
   "analytics_profile": "default_v1",
