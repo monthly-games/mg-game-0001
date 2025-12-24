@@ -1,9 +1,7 @@
-import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
 import 'package:flame/collisions.dart';
-import 'package:flame/effects.dart';
 import 'package:flutter/material.dart'; // For Colors
 import 'package:mg_common_game/core/ui/components/floating_text_component.dart';
 import '../tower_defense_game.dart';
