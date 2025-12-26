@@ -176,6 +176,10 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
     print('Wave $currentWave Complete!');
     _isWaveActive = false;
 
+    // VFX: Wave complete celebration at center of screen
+    final centerPosition = Vector2(game.size.x / 2, game.size.y / 2);
+    game.vfxManager.showWaveComplete(centerPosition);
+
     // Check if Stage Complete (Wave 10 done)
     if (_currentWaveIndex == _waves.length - 1) {
       // Stage Complete!
@@ -196,3 +200,4 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
     );
   }
 }
+

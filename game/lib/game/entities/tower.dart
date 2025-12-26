@@ -124,7 +124,7 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
 
     // Draw upgrade level indicator
     if (upgradeLevel > 0) {
-      final stars = '★' * upgradeLevel;
+      final stars = '?? * upgradeLevel;
       final textPainter = TextPainter(
         text: TextSpan(
           text: stars,
@@ -178,6 +178,27 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     }
 
     if (target != null) {
+      // VFX: Tower attack effect
+      final stats = TowerStats.get(towerType);
+      Color attackColor = Colors.orange;
+      switch (towerType) {
+        case TowerType.splash:
+          attackColor = Colors.red;
+          break;
+        case TowerType.slow:
+          attackColor = Colors.lightBlue;
+          break;
+        case TowerType.sniper:
+          attackColor = Colors.yellow;
+          break;
+        case TowerType.air:
+          attackColor = Colors.cyan;
+          break;
+        default:
+          attackColor = Colors.orange;
+      }
+      game.vfxManager.showTowerAttack(position, attackColor);
+
       // Special behavior based on tower type
       switch (towerType) {
         case TowerType.splash:
@@ -245,5 +266,23 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
         appliesSlow: true,
       ),
     );
+  }
+
+
+  Color _getAttackColor() {
+    switch (towerType) {
+      case TowerType.basic:
+        return Colors.yellow;
+      case TowerType.splash:
+        return Colors.orange;
+      case TowerType.slow:
+        return Colors.lightBlue;
+      case TowerType.sniper:
+        return Colors.red;
+      case TowerType.air:
+        return Colors.cyan;
+      default:
+        return Colors.white;
+    }
   }
 }

@@ -134,6 +134,9 @@ class Monster extends PositionComponent
     _slowMultiplier = slowMultiplier;
     _slowDuration = duration;
 
+    // VFX: Slow effect
+    game.vfxManager.showSlowEffect(position);
+
     // Visual feedback
     game.add(
       FloatingTextComponent(
@@ -148,26 +151,18 @@ class Monster extends PositionComponent
   void takeDamage(double amount) {
     hp -= amount;
 
-    // Visual Feedback: Flash White (Removed due to crash - needs HasPaint)
-    // add(
-    //   ColorEffect(
-    //     const Color(0xFFFFFFFF),
-    //     EffectController(duration: 0.1, reverseDuration: 0.1),
-    //     opacityTo: 0.7,
-    //   ),
-    // );
-
-    // Visual Feedback: Damage Text
-    game.add(
-      FloatingTextComponent(
-        text: '-${amount.toInt()}',
-        position: position.clone() + Vector2(0, -10), // Spawn above monster
-        color: Colors.white,
-        fontSize: 16,
-      ),
-    );
+    // VFX: Show damage number
+    game.vfxManager.showDamageNumber(position, amount);
 
     if (hp <= 0) {
+      // VFX: Monster death effect with gold reward
+      game.vfxManager.showMonsterDeath(position, goldReward: goldReward);
+
+      // Check if boss for special effect
+      if (monsterType == MonsterType.boss) {
+        game.vfxManager.showBossKill(position);
+      }
+
       // Reward Gold
       GetIt.I<GoldManager>().addGold(goldReward);
       game.addGoldEarned(goldReward);
@@ -175,3 +170,4 @@ class Monster extends PositionComponent
     }
   }
 }
+

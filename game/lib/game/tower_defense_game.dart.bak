@@ -15,7 +15,6 @@ import '../app_logger.dart';
 import 'core/map_system.dart';
 import 'core/wave_manager.dart';
 import 'core/stage_data.dart';
-import 'core/vfx_manager.dart';
 import 'entities/tower.dart';
 import 'entities/tower_type.dart';
 import 'entities/ghost_tower.dart';
@@ -23,7 +22,6 @@ import 'entities/ghost_tower.dart';
 class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   late final MapSystem mapSystem;
   late final WaveManager waveManager;
-  late final VfxManager vfxManager;
   final AudioManager audio = GetIt.I<AudioManager>();
   final ProgressionManager progression = GetIt.I<ProgressionManager>();
   final AchievementManager achievements = GetIt.I<AchievementManager>();
@@ -117,10 +115,6 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     add(mapSystem);
 
     camera.viewfinder.anchor = Anchor.topLeft;
-
-    // Initialize VfxManager
-    vfxManager = VfxManager();
-    add(vfxManager);
 
     // Wave Manager with stage info
     waveManager = WaveManager(mapSystem: mapSystem, stageInfo: _stageInfo);
@@ -233,17 +227,12 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
 
     if (GetIt.I<GoldManager>().trySpendGold(towerCost)) {
       // Build
-      final towerPosition = mapSystem.getPosition(gx, gy);
       add(
         Tower(
-          position: towerPosition,
+          position: mapSystem.getPosition(gx, gy),
           towerType: _selectedTowerType,
         ),
       );
-
-      // VFX: Tower build effect
-      vfxManager.showTowerBuild(towerPosition);
-
       audio.playSfx('build.wav');
       GetIt.I<ToastManager>().show(
         '${stats.name} Built!',
@@ -271,7 +260,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     // Floating Text
     add(
       FloatingTextComponent(
-        text: "-$amount ?�️",
+        text: "-$amount ❤️",
         position: Vector2(size.x / 2, size.y / 2),
         color: Colors.redAccent,
         fontSize: 24,
@@ -315,9 +304,6 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     // 2.3 Meta Loop: Stage Clear -> Gems (Gems not in GoldManager? Maybe just Gold for now)
     int stageReward = 200 + (waveManager.currentStage * 50);
     GetIt.I<GoldManager>().addGold(stageReward);
-
-    // Show wave complete effect
-    vfxManager.showWaveComplete(Vector2(size.x / 2, size.y / 2));
 
     GetIt.I<ToastManager>().show(
       'Stage ${waveManager.currentStage} Complete! +${stageReward}g',
@@ -408,13 +394,9 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     final upgradeCost = _selectedTower!.getUpgradeCost();
     if (GetIt.I<GoldManager>().trySpendGold(upgradeCost)) {
       _selectedTower!.upgrade();
-
-      // VFX: Tower upgrade effect
-      vfxManager.showTowerUpgrade(_selectedTower!.position);
-
       audio.playSfx('upgrade.wav');
       GetIt.I<ToastManager>().show(
-        'Tower Upgraded! ??{_selectedTower!.upgradeLevel}',
+        'Tower Upgraded! ★${_selectedTower!.upgradeLevel}',
         backgroundColor: Colors.green,
       );
       overlays.remove('TowerManage');
@@ -469,4 +451,3 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     }
   }
 }
-

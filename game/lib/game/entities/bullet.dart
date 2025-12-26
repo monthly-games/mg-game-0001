@@ -67,7 +67,13 @@ class Bullet extends SpriteComponent
   }
 
   void _applyDamage() {
+    // VFX: Bullet impact effect
+    game.vfxManager.showBulletImpact(target.position, isSplash: isSplash);
+
     if (isSplash) {
+      // Show splash impact effect
+      game.vfxManager.showBulletImpact(target.position, isSplash: true);
+
       // Splash damage to all monsters in radius
       final monsters = game.children.whereType<Monster>();
       for (final monster in monsters) {
@@ -78,6 +84,8 @@ class Bullet extends SpriteComponent
         }
       }
     } else {
+      // Show normal impact effect
+      game.vfxManager.showBulletImpact(target.position, isSplash: false);
       target.takeDamage(damage);
     }
 
@@ -86,3 +94,4 @@ class Bullet extends SpriteComponent
     }
   }
 }
+
