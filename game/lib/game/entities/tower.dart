@@ -1,15 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-
 import 'package:flutter/material.dart';
-import '../tower_defense_game.dart';
-import 'bullet.dart';
-import 'monster.dart';
-import 'tower_type.dart';
-import 'monster_type.dart';
-
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
+import 'package:tower_defense/game/tower_defense_game.dart';
+import 'package:tower_defense/game/entities/bullet.dart';
+import 'package:tower_defense/game/entities/monster.dart';
+import 'package:tower_defense/game/entities/tower_type.dart';
+import 'package:tower_defense/game/entities/monster_type.dart';
 
 class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
   final TowerType towerType;
@@ -97,22 +95,7 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     // 1. Draw Tower Sprite
     baseSprite.render(canvas, position: Vector2.zero(), size: size);
 
-    /*
-    // 2. Draw Turret Sprite (Rotated)
-    canvas.save();
-    canvas.translate(size.x / 2, size.y / 2);
-    canvas.rotate(_rotation);
-
-    // Offset to center the sprite rotation
-    turretSprite.render(
-      canvas,
-      position: Vector2(-size.x / 2, -size.y / 2),
-      size: size,
-    );
-    canvas.restore();
-    */
-    canvas
-        .restore(); // Extra restore if needed, or remove. Wait, code above had save/restore for turret. I removed it. I don't need restore here.
+    // TODO: Turret rotation disabled for now
 
     // Draw Cooldown Indicator (Red line if on cooldown)
     if (_cooldown > 0) {
@@ -124,7 +107,7 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
 
     // Draw upgrade level indicator
     if (upgradeLevel > 0) {
-      final stars = '?? * upgradeLevel;
+      final stars = '+' * upgradeLevel;
       final textPainter = TextPainter(
         text: TextSpan(
           text: stars,

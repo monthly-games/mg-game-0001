@@ -2,23 +2,23 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mg_common_game/core/engine/core_game.dart';
-import 'package:mg_common_game/core/ui/overlays/game_toast.dart';
 import 'package:mg_common_game/core/audio/audio_manager.dart';
-import 'package:mg_common_game/core/ui/theme/app_colors.dart';
-import 'package:mg_common_game/core/ui/components/floating_text_component.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
+import 'package:mg_common_game/core/engine/core_game.dart';
+import 'package:mg_common_game/core/ui/components/floating_text_component.dart';
+import 'package:mg_common_game/core/ui/overlays/game_toast.dart';
+import 'package:mg_common_game/core/ui/theme/app_colors.dart';
+import 'package:mg_common_game/systems/progression/achievement_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
 import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
-import 'package:mg_common_game/systems/progression/achievement_manager.dart';
-import '../app_logger.dart';
-import 'core/map_system.dart';
-import 'core/wave_manager.dart';
-import 'core/stage_data.dart';
-import 'core/vfx_manager.dart';
-import 'entities/tower.dart';
-import 'entities/tower_type.dart';
-import 'entities/ghost_tower.dart';
+import 'package:tower_defense/app_logger.dart';
+import 'package:tower_defense/game/core/map_system.dart';
+import 'package:tower_defense/game/core/stage_data.dart';
+import 'package:tower_defense/game/core/vfx_manager.dart';
+import 'package:tower_defense/game/core/wave_manager.dart';
+import 'package:tower_defense/game/entities/ghost_tower.dart';
+import 'package:tower_defense/game/entities/tower.dart';
+import 'package:tower_defense/game/entities/tower_type.dart';
 
 class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   late final MapSystem mapSystem;
@@ -271,7 +271,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     // Floating Text
     add(
       FloatingTextComponent(
-        text: "-$amount ?�️",
+        text: "-$amount ?�️",
         position: Vector2(size.x / 2, size.y / 2),
         color: Colors.redAccent,
         fontSize: 24,

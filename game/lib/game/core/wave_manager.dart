@@ -1,10 +1,10 @@
-import 'package:flame/components.dart';
 import 'dart:math';
-import '../tower_defense_game.dart';
-import '../entities/monster.dart';
-import '../entities/monster_type.dart';
-import 'map_system.dart';
-import 'stage_data.dart';
+import 'package:flame/components.dart';
+import 'package:tower_defense/game/tower_defense_game.dart';
+import 'package:tower_defense/game/entities/monster.dart';
+import 'package:tower_defense/game/entities/monster_type.dart';
+import 'package:tower_defense/game/core/map_system.dart';
+import 'package:tower_defense/game/core/stage_data.dart';
 
 class MonsterSpawn {
   final MonsterType type;

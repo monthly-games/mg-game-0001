@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/engine/event_bus.dart';
+import 'package:mg_common_game/core/engine/input_manager.dart';
 import 'package:mg_common_game/core/engine/game_manager.dart';
 import 'package:mg_common_game/core/systems/save_system.dart';
 import 'package:mg_common_game/core/ui/overlays/game_toast.dart';
@@ -22,6 +23,12 @@ void main() {
 
     if (!GetIt.I.isRegistered<EventBus>()) {
       GetIt.I.registerSingleton<EventBus>(EventBus());
+    }
+
+    if (!GetIt.I.isRegistered<InputManager>()) {
+      GetIt.I.registerSingleton<InputManager>(
+        InputManager(GetIt.I<EventBus>()),
+      );
     }
 
     if (!GetIt.I.isRegistered<SaveSystem>()) {

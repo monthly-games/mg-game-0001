@@ -25,7 +25,7 @@ class TowerSelectDialog extends StatelessWidget {
         width: 600, // Increased width for lock info
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.9),
+          color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.primary, width: 2),
         ),
@@ -94,9 +94,9 @@ class TowerSelectDialog extends StatelessWidget {
       width: 220,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey.shade900.withOpacity(0.5),
+        color: Colors.grey.shade900.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.withOpacity(0.3), width: 2),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.3), width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -126,8 +126,8 @@ class TowerSelectDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: canAfford
-              ? AppColors.surface.withOpacity(0.8)
-              : Colors.grey.shade800.withOpacity(0.5),
+              ? AppColors.surface.withValues(alpha: 0.8)
+              : Colors.grey.shade800.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: canAfford ? AppColors.primary : Colors.grey,

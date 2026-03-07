@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-
-import '../tower_defense_game.dart';
+import 'package:tower_defense/game/tower_defense_game.dart';
 
 class GhostTower extends PositionComponent
     with HasGameReference<TowerDefenseGame> {
@@ -27,8 +26,8 @@ class GhostTower extends PositionComponent
     // Draw Range Indicator
     final rangePaint = Paint()
       ..color = isValid
-          ? Colors.white.withOpacity(0.3)
-          : Colors.red.withOpacity(0.3)
+          ? Colors.white.withValues(alpha: 0.3)
+          : Colors.red.withValues(alpha: 0.3)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(size.x / 2, size.y / 2), range, rangePaint);
 
@@ -41,8 +40,8 @@ class GhostTower extends PositionComponent
     // Draw Ghost Body (Polished)
     final ghostPaint = Paint()
       ..color = isValid
-          ? Colors.white.withOpacity(0.5)
-          : Colors.red.withOpacity(0.5);
+          ? Colors.white.withValues(alpha: 0.5)
+          : Colors.red.withValues(alpha: 0.5);
 
     // 1. Draw Base Sprite
     baseSprite.render(

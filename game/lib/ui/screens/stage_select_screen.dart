@@ -162,7 +162,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: isUnlocked
-              ? (isCleared ? Colors.green.withOpacity(0.3) : Colors.black54)
+              ? (isCleared ? Colors.green.withValues(alpha: 0.3) : Colors.black54)
               : Colors.black26,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -175,7 +175,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
               ? [
                   BoxShadow(
                     color: (isCleared ? Colors.green : AppColors.primary)
-                        .withOpacity(0.3),
+                        .withValues(alpha: 0.3),
                     blurRadius: 8,
                   ),
                 ]

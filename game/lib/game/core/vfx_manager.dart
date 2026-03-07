@@ -1,21 +1,17 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/engine/effects/flame_effects.dart';
-import '../tower_defense_game.dart';
 
 /// VFX Manager for tower defense specific visual effects
-class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
+class VfxManager extends Component with HasGameRef {
   VfxManager();
 
   /// Show tower attack effect - muzzle flash particle
   void showTowerAttack(Vector2 position, Color color) {
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.hit(
         position: position.clone(),
         color: color,
-        particleCount: 8,
-        duration: 0.3,
-        spreadRadius: 20.0,
       ),
     );
   }
@@ -23,25 +19,19 @@ class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
   /// Show monster death effect - explosion + coins
   void showMonsterDeath(Vector2 position, {int goldReward = 0}) {
     // Explosion effect
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.explosion(
         position: position.clone(),
         color: Colors.orange,
-        particleCount: 20,
-        duration: 0.6,
-        spreadRadius: 40.0,
       ),
     );
 
     // Gold coins effect if there's a reward
     if (goldReward > 0) {
-      game.add(
-        FlameParticleEffect(
+      gameRef.add(
+        FlameParticleEffect.coins(
           position: position.clone() + Vector2(0, -10),
-          color: Colors.yellow,
-          particleCount: 10,
-          duration: 0.5,
-          spreadRadius: 30.0,
+          count: goldReward.clamp(5, 15),
         ),
       );
     }
@@ -49,13 +39,11 @@ class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
 
   /// Show bullet impact effect
   void showBulletImpact(Vector2 position, {bool isSplash = false}) {
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.hit(
         position: position.clone(),
         color: isSplash ? Colors.red : Colors.white,
-        particleCount: isSplash ? 15 : 8,
-        duration: 0.4,
-        spreadRadius: isSplash ? 35.0 : 20.0,
+        isCritical: isSplash,
       ),
     );
   }
@@ -63,26 +51,20 @@ class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
   /// Show wave complete celebration effect
   void showWaveComplete(Vector2 position) {
     // Multi-colored celebration particles
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.green,
-        particleCount: 30,
-        duration: 1.0,
-        spreadRadius: 60.0,
       ),
     );
 
     // Add secondary burst
     Future.delayed(const Duration(milliseconds: 200), () {
-      if (!game.isMounted) return;
-      game.add(
-        FlameParticleEffect(
+      if (!isMounted) return;
+      gameRef.add(
+        FlameParticleEffect.sparkle(
           position: position.clone(),
           color: Colors.yellow,
-          particleCount: 25,
-          duration: 0.8,
-          spreadRadius: 50.0,
         ),
       );
     });
@@ -91,19 +73,17 @@ class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
   /// Show boss kill effect with screen shake
   void showBossKill(Vector2 position) {
     // Large explosion
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.explosion(
         position: position.clone(),
         color: Colors.purple,
-        particleCount: 50,
-        duration: 1.2,
-        spreadRadius: 80.0,
+        radius: 120,
       ),
     );
 
     // Screen shake effect
-    if (game.camera.viewport is Component) {
-      (game.camera.viewport as Component).add(
+    if (gameRef.camera.viewport is Component) {
+      (gameRef.camera.viewport as Component).add(
         FlameScreenShake(
           intensity: 8.0,
           duration: 0.8,
@@ -114,50 +94,42 @@ class VfxManager extends Component with HasGameReference<TowerDefenseGame> {
 
   /// Show damage number
   void showDamageNumber(Vector2 position, double damage, {Color? color}) {
-    game.add(
+    gameRef.add(
       FlameDamageNumber(
+        amount: damage.toInt(),
         position: position.clone(),
-        damage: damage.toInt(),
-        color: color ?? Colors.white,
+        color: color,
       ),
     );
   }
 
   /// Show tower upgrade effect
   void showTowerUpgrade(Vector2 position) {
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.yellow,
-        particleCount: 25,
-        duration: 0.8,
-        spreadRadius: 45.0,
       ),
     );
   }
 
   /// Show tower build effect
   void showTowerBuild(Vector2 position) {
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.green,
-        particleCount: 15,
-        duration: 0.5,
-        spreadRadius: 35.0,
       ),
     );
   }
 
   /// Show slow effect indicator
   void showSlowEffect(Vector2 position) {
-    game.add(
-      FlameParticleEffect(
+    gameRef.add(
+      FlameParticlePresets.burst(
         position: position.clone(),
         color: Colors.lightBlue,
-        particleCount: 12,
-        duration: 0.4,
-        spreadRadius: 25.0,
+        count: 12,
       ),
     );
   }

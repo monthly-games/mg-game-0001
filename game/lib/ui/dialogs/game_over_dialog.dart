@@ -26,7 +26,7 @@ class GameOverDialog extends StatelessWidget {
         width: 400,
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.9),
+          color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isVictory ? Colors.green : Colors.red,
@@ -34,7 +34,7 @@ class GameOverDialog extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: (isVictory ? Colors.green : Colors.red).withOpacity(0.5),
+              color: (isVictory ? Colors.green : Colors.red).withValues(alpha: 0.5),
               blurRadius: 20,
               spreadRadius: 5,
             ),

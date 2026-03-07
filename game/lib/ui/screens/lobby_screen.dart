@@ -18,6 +18,8 @@ import 'package:mg_common_game/systems/settings/settings_manager.dart';
 import 'package:mg_common_game/core/ui/screens/settings_screen.dart';
 import '../../main.dart'; // To access GamePage
 import 'stage_select_screen.dart';
+import 'battlepass_screen.dart';
+import 'gacha_screen.dart';
 
 class LobbyScreen extends StatelessWidget {
   const LobbyScreen({super.key});
@@ -26,17 +28,20 @@ class LobbyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GameScaffold(
       backgroundImage: 'assets/images/bg_lobby.png',
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Logo
-            const Spacer(flex: 2),
-            Image.asset('assets/images/logo.png', width: 400),
-            const Spacer(flex: 1),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo
+                  Image.asset('assets/images/logo.png', width: 300),
+                  const SizedBox(height: 40),
 
-            // Quick Start Button
-            _buildMenuButton(
+                  // Quick Start Button
+                  _buildMenuButton(
               context,
               label: 'QUICK START',
               onTap: () {
@@ -45,8 +50,8 @@ class LobbyScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 20),
-            // Stage Select Button
+            const SizedBox(height: 12),
+                  // Stage Select Button
             _buildMenuButton(
               context,
               label: 'SELECT STAGE',
@@ -56,8 +61,8 @@ class LobbyScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 20),
-            _buildMenuButton(
+            const SizedBox(height: 12),
+                  _buildMenuButton(
               context,
               label: 'PRESTIGE',
               onTap: () {
@@ -102,7 +107,7 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             _buildMenuButton(
               context,
               label: 'DAILY QUESTS',
@@ -128,7 +133,7 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             _buildMenuButton(
               context,
               label: 'WEEKLY CHALLENGES',
@@ -158,7 +163,33 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
+            _buildMenuButton(
+              context,
+              label: 'BATTLEPASS',
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const BattlepassScreen(),
+                  ),
+                );
+              },
+              isSecondary: true,
+            ),
+            const SizedBox(height: 12),
+            _buildMenuButton(
+              context,
+              label: 'GACHA',
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const GachaScreen(),
+                  ),
+                );
+              },
+              isSecondary: true,
+            ),
+            const SizedBox(height: 12),
             _buildMenuButton(
               context,
               label: 'STATISTICS',
@@ -180,7 +211,7 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             _buildMenuButton(
               context,
               label: 'SETTINGS',
@@ -199,8 +230,11 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const Spacer(flex: 3),
+            const SizedBox(height: 40),
           ],
+        ),
+            ),
+          ),
         ),
       ),
     );
@@ -217,8 +251,8 @@ class LobbyScreen extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-          width: 280,
-          height: 80,
+          width: 260,
+          height: 60,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -233,12 +267,12 @@ class LobbyScreen extends StatelessWidget {
                 label,
                 style: AppTextStyles.header2.copyWith(
                   color: isSecondary ? Colors.white70 : Colors.white,
-                  fontSize: 22,
+                  fontSize: 18,
                   shadows: [
                     Shadow(
                       color: isSecondary
                           ? Colors.black45
-                          : AppColors.primary.withOpacity(0.8),
+                          : AppColors.primary.withValues(alpha: 0.8),
                       blurRadius: 10,
                     ),
                   ],

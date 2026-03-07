@@ -15,6 +15,8 @@ class MGGameHud extends StatelessWidget {
   final VoidCallback? onNextWave;
   final VoidCallback? onPause;
   final VoidCallback? onSpeedChange;
+  final VoidCallback? onBattlepass;
+  final VoidCallback? onGacha;
 
   const MGGameHud({
     super.key,
@@ -29,6 +31,8 @@ class MGGameHud extends StatelessWidget {
     this.onNextWave,
     this.onPause,
     this.onSpeedChange,
+    this.onBattlepass,
+    this.onGacha,
   });
 
   @override
@@ -141,6 +145,24 @@ class MGGameHud extends StatelessWidget {
         MGSpacing.hSm,
         // 생명력
         _buildLivesIndicator(),
+        MGSpacing.hSm,
+        // Battlepass
+        MGIconButton(
+          icon: Icons.emoji_events,
+          onPressed: onBattlepass,
+          size: 40,
+          backgroundColor: Colors.black54,
+          color: MGColors.warning,
+        ),
+        MGSpacing.hXs,
+        // Gacha
+        MGIconButton(
+          icon: Icons.casino,
+          onPressed: onGacha,
+          size: 40,
+          backgroundColor: Colors.black54,
+          color: Colors.purple,
+        ),
       ],
     );
   }

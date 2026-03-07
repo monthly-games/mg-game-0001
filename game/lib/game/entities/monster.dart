@@ -1,11 +1,11 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
-import 'package:flame/collisions.dart';
-import 'package:flutter/material.dart'; // For Colors
 import 'package:mg_common_game/core/ui/components/floating_text_component.dart';
-import '../tower_defense_game.dart';
-import 'monster_type.dart';
+import 'package:tower_defense/game/tower_defense_game.dart';
+import 'package:tower_defense/game/entities/monster_type.dart';
 
 class Monster extends PositionComponent
     with CollisionCallbacks, HasGameReference<TowerDefenseGame> {
@@ -57,7 +57,7 @@ class Monster extends PositionComponent
     // Shadow
     canvas.drawOval(
       Rect.fromLTWH(0, size.y - 4, size.x, 8),
-      Paint()..color = Colors.black.withOpacity(0.3),
+      Paint()..color = Colors.black.withValues(alpha: 0.3),
     );
 
     super.render(canvas);
@@ -85,7 +85,7 @@ class Monster extends PositionComponent
       // Background (Red/Empty)
       canvas.drawRect(
         Rect.fromLTWH(barX, barY, barWidth, barHeight),
-        Paint()..color = Colors.red.withOpacity(0.8),
+        Paint()..color = Colors.red.withValues(alpha: 0.8),
       );
 
       // Foreground (Green/Current)

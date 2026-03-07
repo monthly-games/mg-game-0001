@@ -1,11 +1,7 @@
-import 'package:flame/components.dart';
-import 'monster.dart';
-
 import 'package:flame/collisions.dart';
-
-// Assuming HasGameRef is needed for gameRef.loadSprite
-
-import '../tower_defense_game.dart';
+import 'package:flame/components.dart';
+import 'package:tower_defense/game/tower_defense_game.dart';
+import 'package:tower_defense/game/entities/monster.dart';
 
 class Bullet extends SpriteComponent
     with CollisionCallbacks, HasGameReference<TowerDefenseGame> {
