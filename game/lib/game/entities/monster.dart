@@ -6,6 +6,7 @@ import 'package:mg_common_game/core/economy/gold_manager.dart';
 import 'package:mg_common_game/core/ui/components/floating_text_component.dart';
 import 'package:tower_defense/game/tower_defense_game.dart';
 import 'package:tower_defense/game/entities/monster_type.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class Monster extends PositionComponent
     with CollisionCallbacks, HasGameReference<TowerDefenseGame> {
@@ -85,14 +86,14 @@ class Monster extends PositionComponent
       // Background (Red/Empty)
       canvas.drawRect(
         Rect.fromLTWH(barX, barY, barWidth, barHeight),
-        Paint()..color = Colors.red.withValues(alpha: 0.8),
+        Paint()..color = MGColors.error.withValues(alpha: 0.8),
       );
 
       // Foreground (Green/Current)
       final hpPercent = hp / maxHp;
       canvas.drawRect(
         Rect.fromLTWH(barX, barY, barWidth * hpPercent, barHeight),
-        Paint()..color = Colors.green,
+        Paint()..color = MGColors.success,
       );
     }
   }

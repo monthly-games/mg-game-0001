@@ -104,14 +104,14 @@ class MGGameHud extends StatelessWidget {
         children: [
           Icon(
             Icons.waves,
-            color: isWaveActive ? MGColors.warning : Colors.white,
+            color: isWaveActive ? MGColors.warning : MGColors.textHighEmphasis,
             size: 20,
           ),
           MGSpacing.hXs,
           Text(
             'Wave $wave/$maxWave',
             style: MGTextStyles.hud.copyWith(
-              color: Colors.white,
+              color: MGColors.textHighEmphasis,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -185,7 +185,7 @@ class MGGameHud extends StatelessWidget {
         children: [
           Icon(
             Icons.favorite,
-            color: isLow ? MGColors.error : Colors.red,
+            color: isLow ? MGColors.error : MGColors.error,
             size: 20,
           ),
           MGSpacing.hXs,
@@ -194,8 +194,8 @@ class MGGameHud extends StatelessWidget {
             child: MGLinearProgress(
               value: percentage,
               height: 8,
-              valueColor: isLow ? MGColors.error : Colors.red,
-              backgroundColor: Colors.red.withValues(alpha: 0.3),
+              valueColor: isLow ? MGColors.error : MGColors.error,
+              backgroundColor: MGColors.error.withValues(alpha: 0.3),
               borderRadius: 4,
             ),
           ),
@@ -203,7 +203,7 @@ class MGGameHud extends StatelessWidget {
           Text(
             '$lives',
             style: MGTextStyles.hudSmall.copyWith(
-              color: isLow ? MGColors.error : Colors.white,
+              color: isLow ? MGColors.error : MGColors.textHighEmphasis,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -230,7 +230,7 @@ class MGGameHud extends StatelessWidget {
           icon: Icons.fast_forward,
           style: MGButtonStyle.filled,
           size: MGButtonSize.small,
-          backgroundColor: isWaveActive ? Colors.grey : MGColors.warning,
+          backgroundColor: isWaveActive ? MGColors.common : MGColors.warning,
           onPressed: isWaveActive ? null : onNextWave,
         ),
       ],
@@ -251,13 +251,13 @@ class MGGameHud extends StatelessWidget {
           children: [
             Icon(
               gameSpeed == 1.0 ? Icons.play_arrow : Icons.fast_forward,
-              color: Colors.white,
+              color: MGColors.textHighEmphasis,
               size: 20,
             ),
             MGSpacing.vXs,
             Text(
               '${gameSpeed.toStringAsFixed(0)}x',
-              style: MGTextStyles.caption.copyWith(color: Colors.white),
+              style: MGTextStyles.caption.copyWith(color: MGColors.textHighEmphasis),
             ),
           ],
         ),

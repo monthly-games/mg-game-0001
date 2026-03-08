@@ -3,6 +3,7 @@ import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
 import '../../game/entities/tower.dart';
 import '../../game/entities/tower_type.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class TowerManageDialog extends StatelessWidget {
   final Tower tower;
@@ -95,8 +96,8 @@ class TowerManageDialog extends StatelessWidget {
                     style: AppTextStyles.button,
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: canAffordUpgrade ? Colors.green : Colors.grey,
-                    foregroundColor: Colors.white,
+                    backgroundColor: canAffordUpgrade ? MGColors.success : MGColors.common,
+                    foregroundColor: MGColors.textHighEmphasis,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     disabledBackgroundColor: Colors.grey.shade800,
                   ),
@@ -107,15 +108,15 @@ class TowerManageDialog extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withValues(alpha: 0.3),
+                  color: MGColors.warning.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.orange),
+                  border: Border.all(color: MGColors.warning),
                 ),
                 child: const Text(
                   'MAX LEVEL',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: MGColors.warning,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -135,7 +136,7 @@ class TowerManageDialog extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red.shade700,
-                  foregroundColor: Colors.white,
+                  foregroundColor: MGColors.textHighEmphasis,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
               ),

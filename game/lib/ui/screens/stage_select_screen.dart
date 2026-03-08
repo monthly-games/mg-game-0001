@@ -6,6 +6,7 @@ import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
 import '../../game/core/stage_data.dart';
 import '../../main.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class StageSelectScreen extends StatefulWidget {
   const StageSelectScreen({super.key});
@@ -34,13 +35,13 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: Colors.white, size: 32),
+                    icon: const Icon(Icons.arrow_back, color: MGColors.textHighEmphasis, size: 32),
                   ),
                   const SizedBox(width: 16),
                   Text(
                     'SELECT STAGE',
                     style: AppTextStyles.header1.copyWith(
-                      color: Colors.white,
+                      color: MGColors.textHighEmphasis,
                       fontSize: 28,
                     ),
                   ),
@@ -84,7 +85,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
                             Text(
                               chapter.name,
                               style: TextStyle(
-                                color: isUnlocked ? Colors.white : Colors.white38,
+                                color: isUnlocked ? MGColors.textHighEmphasis : Colors.white38,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -162,19 +163,19 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: isUnlocked
-              ? (isCleared ? Colors.green.withValues(alpha: 0.3) : Colors.black54)
+              ? (isCleared ? MGColors.success.withValues(alpha: 0.3) : Colors.black54)
               : Colors.black26,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isUnlocked
-                ? (isCleared ? Colors.green : AppColors.primary)
+                ? (isCleared ? MGColors.success : AppColors.primary)
                 : Colors.white24,
             width: 2,
           ),
           boxShadow: isUnlocked
               ? [
                   BoxShadow(
-                    color: (isCleared ? Colors.green : AppColors.primary)
+                    color: (isCleared ? MGColors.success : AppColors.primary)
                         .withValues(alpha: 0.3),
                     blurRadius: 8,
                   ),
@@ -190,12 +191,12 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
               Text(
                 '${stage.stageNumber}',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: MGColors.textHighEmphasis,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   shadows: [
                     Shadow(
-                      color: isCleared ? Colors.green : AppColors.primary,
+                      color: isCleared ? MGColors.success : AppColors.primary,
                       blurRadius: 10,
                     ),
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/battlepass/battlepass_adapter.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 /// Battlepass Screen - Placeholder Implementation
 /// TODO: Complete UI implementation following docs/BATTLEPASS_GACHA_ACTIVATION_GUIDE.md
@@ -26,7 +27,7 @@ class _BattlepassScreenState extends State<BattlepassScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Battle Pass'),
-        backgroundColor: Colors.green,
+        backgroundColor: MGColors.success,
       ),
       body: ListenableBuilder(
         listenable: _battlepass,
@@ -69,7 +70,7 @@ class _BattlepassScreenState extends State<BattlepassScreen> {
                   child: Text(
                     'TODO: Implement full UI with missions, rewards, and premium track',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: MGColors.common),
                   ),
                 ),
               ],

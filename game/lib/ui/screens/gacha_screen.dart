@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/gacha/gacha_adapter.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 /// Gacha Screen - Placeholder Implementation  
 /// TODO: Complete UI implementation following docs/BATTLEPASS_GACHA_ACTIVATION_GUIDE.md
@@ -86,7 +87,7 @@ class _GachaScreenState extends State<GachaScreen> {
                     child: Text(
                       'TODO: Implement full UI with pity counter, history, and animations',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: MGColors.common),
                     ),
                   ),
               ],
@@ -99,11 +100,11 @@ class _GachaScreenState extends State<GachaScreen> {
 
   Color _getRarityColor(dynamic rarity) {
     final rarityStr = rarity.toString().toLowerCase();
-    if (rarityStr.contains('ultrarare')) return Colors.red;
-    if (rarityStr.contains('supersuperrare')) return Colors.orange;
-    if (rarityStr.contains('superrare')) return Colors.blue;
-    if (rarityStr.contains('rare')) return Colors.green;
-    return Colors.grey;
+    if (rarityStr.contains('ultrarare')) return MGColors.error;
+    if (rarityStr.contains('supersuperrare')) return MGColors.warning;
+    if (rarityStr.contains('superrare')) return MGColors.info;
+    if (rarityStr.contains('rare')) return MGColors.success;
+    return MGColors.common;
   }
 
   void _pullSingle() {

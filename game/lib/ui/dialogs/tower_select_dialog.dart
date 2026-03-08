@@ -4,6 +4,7 @@ import 'package:mg_common_game/core/economy/gold_manager.dart';
 import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
 import '../../game/entities/tower_type.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class TowerSelectDialog extends StatelessWidget {
   final Function(TowerType) onTowerSelected;
@@ -44,7 +45,7 @@ class TowerSelectDialog extends StatelessWidget {
                 ),
                 Text(
                   'Locked items unlock at later stages',
-                  style: AppTextStyles.caption.copyWith(color: Colors.grey),
+                  style: AppTextStyles.caption.copyWith(color: MGColors.common),
                 ),
               ],
             ),
@@ -96,16 +97,16 @@ class TowerSelectDialog extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey.shade900.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.3), width: 2),
+        border: Border.all(color: MGColors.common.withValues(alpha: 0.3), width: 2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.lock, size: 48, color: Colors.grey),
+          const Icon(Icons.lock, size: 48, color: MGColors.common),
           const SizedBox(height: 12),
           Text(
             stats.name,
-            style: AppTextStyles.header2.copyWith(color: Colors.grey),
+            style: AppTextStyles.header2.copyWith(color: MGColors.common),
           ),
           const SizedBox(height: 8),
           Text(
@@ -130,7 +131,7 @@ class TowerSelectDialog extends StatelessWidget {
               : Colors.grey.shade800.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: canAfford ? AppColors.primary : Colors.grey,
+            color: canAfford ? AppColors.primary : MGColors.common,
             width: 2,
           ),
         ),
@@ -145,7 +146,7 @@ class TowerSelectDialog extends StatelessWidget {
                     stats.name,
                     style: AppTextStyles.header2.copyWith(
                       fontSize: 18,
-                      color: canAfford ? Colors.white : Colors.grey,
+                      color: canAfford ? MGColors.textHighEmphasis : MGColors.common,
                     ),
                   ),
                 ),
@@ -155,7 +156,7 @@ class TowerSelectDialog extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: canAfford ? AppColors.secondary : Colors.grey,
+                    color: canAfford ? AppColors.secondary : MGColors.common,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -163,13 +164,13 @@ class TowerSelectDialog extends StatelessWidget {
                       const Icon(
                         Icons.monetization_on,
                         size: 16,
-                        color: Colors.white,
+                        color: MGColors.textHighEmphasis,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         '${stats.cost}',
                         style: AppTextStyles.body.copyWith(
-                          color: Colors.white,
+                          color: MGColors.textHighEmphasis,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -182,7 +183,7 @@ class TowerSelectDialog extends StatelessWidget {
             Text(
               stats.description,
               style: AppTextStyles.caption.copyWith(
-                color: canAfford ? Colors.white70 : Colors.grey,
+                color: canAfford ? Colors.white70 : MGColors.common,
                 fontSize: 12,
               ),
             ),
@@ -209,14 +210,14 @@ class TowerSelectDialog extends StatelessWidget {
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            color: canAfford ? Colors.white60 : Colors.grey,
+            color: canAfford ? Colors.white60 : MGColors.common,
             fontSize: 11,
           ),
         ),
         Text(
           value,
           style: AppTextStyles.body.copyWith(
-            color: canAfford ? AppColors.primary : Colors.grey,
+            color: canAfford ? AppColors.primary : MGColors.common,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),

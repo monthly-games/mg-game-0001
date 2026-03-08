@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class GameOverDialog extends StatelessWidget {
   final bool isVictory;
@@ -29,12 +30,12 @@ class GameOverDialog extends StatelessWidget {
           color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isVictory ? Colors.green : Colors.red,
+            color: isVictory ? MGColors.success : MGColors.error,
             width: 3,
           ),
           boxShadow: [
             BoxShadow(
-              color: (isVictory ? Colors.green : Colors.red).withValues(alpha: 0.5),
+              color: (isVictory ? MGColors.success : MGColors.error).withValues(alpha: 0.5),
               blurRadius: 20,
               spreadRadius: 5,
             ),
@@ -47,7 +48,7 @@ class GameOverDialog extends StatelessWidget {
             Text(
               isVictory ? '🎉 VICTORY! 🎉' : '💀 GAME OVER 💀',
               style: AppTextStyles.header1.copyWith(
-                color: isVictory ? Colors.green : Colors.red,
+                color: isVictory ? MGColors.success : MGColors.error,
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
@@ -59,7 +60,7 @@ class GameOverDialog extends StatelessWidget {
             _buildStatRow(
               'Waves Survived:',
               '$wave',
-              isVictory ? Colors.green : Colors.orange,
+              isVictory ? MGColors.success : MGColors.warning,
             ),
             const SizedBox(height: 12),
             _buildStatRow(
@@ -133,7 +134,7 @@ class GameOverDialog extends StatelessWidget {
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          foregroundColor: Colors.white,
+          foregroundColor: MGColors.textHighEmphasis,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),

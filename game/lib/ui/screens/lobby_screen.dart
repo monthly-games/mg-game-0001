@@ -20,6 +20,7 @@ import '../../main.dart'; // To access GamePage
 import 'stage_select_screen.dart';
 import 'battlepass_screen.dart';
 import 'gacha_screen.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class LobbyScreen extends StatelessWidget {
   const LobbyScreen({super.key});
@@ -266,7 +267,7 @@ class LobbyScreen extends StatelessWidget {
               Text(
                 label,
                 style: AppTextStyles.header2.copyWith(
-                  color: isSecondary ? Colors.white70 : Colors.white,
+                  color: isSecondary ? Colors.white70 : MGColors.textHighEmphasis,
                   fontSize: 18,
                   shadows: [
                     Shadow(

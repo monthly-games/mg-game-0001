@@ -19,6 +19,7 @@ import 'package:tower_defense/game/core/wave_manager.dart';
 import 'package:tower_defense/game/entities/ghost_tower.dart';
 import 'package:tower_defense/game/entities/tower.dart';
 import 'package:tower_defense/game/entities/tower_type.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   late final MapSystem mapSystem;
@@ -210,7 +211,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
           audio.playSfx('error.wav');
           GetIt.I<ToastManager>().show(
             'Cannot build here!',
-            backgroundColor: Colors.red,
+            backgroundColor: MGColors.error,
           );
         }
       } else {
@@ -247,12 +248,12 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
       audio.playSfx('build.wav');
       GetIt.I<ToastManager>().show(
         '${stats.name} Built!',
-        backgroundColor: Colors.green,
+        backgroundColor: MGColors.success,
       );
     } else {
       GetIt.I<ToastManager>().show(
         'Not enough Gold! Need $towerCost',
-        backgroundColor: Colors.red,
+        backgroundColor: MGColors.error,
       );
       audio.playSfx('error.wav');
     }
@@ -285,7 +286,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     } else {
       GetIt.I<ToastManager>().show(
         'Lives: $lives',
-        backgroundColor: Colors.orange,
+        backgroundColor: MGColors.warning,
       );
       audio.playSfx('hit.wav');
       logger.d('Player hit. Lives remaining: $lives');
@@ -299,10 +300,10 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     pauseEngine();
 
     if (isVictory) {
-      GetIt.I<ToastManager>().show('VICTORY!', backgroundColor: Colors.green);
+      GetIt.I<ToastManager>().show('VICTORY!', backgroundColor: MGColors.success);
       audio.playSfx('victory.wav');
     } else {
-      GetIt.I<ToastManager>().show('GAME OVER', backgroundColor: Colors.red);
+      GetIt.I<ToastManager>().show('GAME OVER', backgroundColor: MGColors.error);
       audio.playSfx('game_over.wav');
     }
 
@@ -415,14 +416,14 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
       audio.playSfx('upgrade.wav');
       GetIt.I<ToastManager>().show(
         'Tower Upgraded! ??{_selectedTower!.upgradeLevel}',
-        backgroundColor: Colors.green,
+        backgroundColor: MGColors.success,
       );
       overlays.remove('TowerManage');
       _selectedTower = null;
     } else {
       GetIt.I<ToastManager>().show(
         'Not enough Gold! Need $upgradeCost',
-        backgroundColor: Colors.red,
+        backgroundColor: MGColors.error,
       );
       audio.playSfx('error.wav');
     }
@@ -437,7 +438,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     audio.playSfx('sell.wav');
     GetIt.I<ToastManager>().show(
       'Tower Sold! +${sellValue}g',
-      backgroundColor: Colors.orange,
+      backgroundColor: MGColors.warning,
     );
     overlays.remove('TowerManage');
     _selectedTower = null;

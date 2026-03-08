@@ -8,6 +8,7 @@ import 'package:tower_defense/game/entities/bullet.dart';
 import 'package:tower_defense/game/entities/monster.dart';
 import 'package:tower_defense/game/entities/tower_type.dart';
 import 'package:tower_defense/game/entities/monster_type.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
   final TowerType towerType;
@@ -101,7 +102,7 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     if (_cooldown > 0) {
       canvas.drawRect(
         Rect.fromLTWH(0, size.y - 5, size.x * (_cooldown / attackSpeed), 5),
-        Paint()..color = Colors.red,
+        Paint()..color = MGColors.error,
       );
     }
 
@@ -163,10 +164,10 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     if (target != null) {
       // VFX: Tower attack effect
       final stats = TowerStats.get(towerType);
-      Color attackColor = Colors.orange;
+      Color attackColor = MGColors.warning;
       switch (towerType) {
         case TowerType.splash:
-          attackColor = Colors.red;
+          attackColor = MGColors.error;
           break;
         case TowerType.slow:
           attackColor = Colors.lightBlue;
@@ -178,7 +179,7 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
           attackColor = Colors.cyan;
           break;
         default:
-          attackColor = Colors.orange;
+          attackColor = MGColors.warning;
       }
       game.vfxManager.showTowerAttack(position, attackColor);
 
@@ -257,15 +258,15 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
       case TowerType.basic:
         return Colors.yellow;
       case TowerType.splash:
-        return Colors.orange;
+        return MGColors.warning;
       case TowerType.slow:
         return Colors.lightBlue;
       case TowerType.sniper:
-        return Colors.red;
+        return MGColors.error;
       case TowerType.air:
         return Colors.cyan;
       default:
-        return Colors.white;
+        return MGColors.textHighEmphasis;
     }
   }
 }

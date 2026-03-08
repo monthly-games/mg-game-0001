@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class TutorialOverlay extends StatefulWidget {
   final VoidCallback onComplete;
@@ -116,7 +117,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                   child: Icon(
                     step.icon,
                     size: 100,
-                    color: const Color(0xFFFFD700), // Gold color
+                    color: MGColors.gold, // Gold color
                   ),
                 ),
               ),
@@ -130,7 +131,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       style: const TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: MGColors.textHighEmphasis,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -157,7 +158,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: index == _currentStep
-                                ? const Color(0xFFFFD700)
+                                ? MGColors.gold
                                 : Colors.white30,
                           ),
                         ),
@@ -172,7 +173,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       child: ElevatedButton(
                         onPressed: _nextStep,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFD700),
+                          backgroundColor: MGColors.gold,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
