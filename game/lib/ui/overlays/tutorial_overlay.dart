@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
-class TutorialOverlay extends StatefulWidget {
+class GameTutorialOverlay extends StatefulWidget {
   final VoidCallback onComplete;
 
-  const TutorialOverlay({
+  const GameTutorialOverlay({
     super.key,
     required this.onComplete,
   });
 
   @override
-  State<TutorialOverlay> createState() => _TutorialOverlayState();
+  State<GameTutorialOverlay> createState() => _GameTutorialOverlayState();
 
   static Future<bool> hasSeenTutorial() async {
     final prefs = await SharedPreferences.getInstance();
@@ -24,38 +24,38 @@ class TutorialOverlay extends StatefulWidget {
   }
 }
 
-class _TutorialOverlayState extends State<TutorialOverlay>
+class _GameTutorialOverlayState extends State<GameTutorialOverlay>
     with SingleTickerProviderStateMixin {
   int _currentStep = 0;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
-  final List<TutorialStep> _steps = const [
-    TutorialStep(
+  final List<GameTutorialStep> _steps = const [
+    GameTutorialStep(
       title: 'Welcome to Tower Defense!',
       description: 'Build towers to defend against waves of monsters',
       icon: Icons.account_balance,
       iconPosition: Alignment.center,
     ),
-    TutorialStep(
+    GameTutorialStep(
       title: 'Build Towers',
       description: 'Tap the BUILD button, select a tower type, then place it on the map',
       icon: Icons.add_business,
       iconPosition: Alignment.bottomCenter,
     ),
-    TutorialStep(
+    GameTutorialStep(
       title: 'Upgrade Towers',
       description: 'Tap a placed tower to upgrade it for more damage and range, or sell it for gold',
       icon: Icons.upgrade,
       iconPosition: Alignment.center,
     ),
-    TutorialStep(
+    GameTutorialStep(
       title: 'Manage Your Economy',
       description: 'Earn gold by defeating monsters. Use it wisely to upgrade towers!',
       icon: Icons.monetization_on,
       iconPosition: Alignment.topRight,
     ),
-    TutorialStep(
+    GameTutorialStep(
       title: 'Start the Wave',
       description: 'When ready, tap NEXT WAVE to send monsters. Don\'t let them reach the end!',
       icon: Icons.play_arrow,
@@ -95,7 +95,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
   }
 
   Future<void> _completeTutorial() async {
-    await TutorialOverlay.markTutorialComplete();
+    await GameTutorialOverlay.markTutorialComplete();
     widget.onComplete();
   }
 
@@ -215,13 +215,13 @@ class _TutorialOverlayState extends State<TutorialOverlay>
   }
 }
 
-class TutorialStep {
+class GameTutorialStep {
   final String title;
   final String description;
   final IconData icon;
   final Alignment iconPosition;
 
-  const TutorialStep({
+  const GameTutorialStep({
     required this.title,
     required this.description,
     required this.icon,

@@ -1,12 +1,6 @@
 import 'dart:async';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:mg_common_game/core/ui/screens/seasonal_event_screen.dart';
-import 'package:mg_common_game/core/ui/screens/tournament_screen.dart';
-import 'package:mg_common_game/core/ui/screens/guild_war_screen.dart';
-import 'package:mg_common_game/systems/events/seasonal_content_manager.dart';
-import 'package:mg_common_game/systems/competitive/tournament_manager.dart';
-import 'package:mg_common_game/systems/social/guild_war_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mg_common_game/systems/systems.dart';
 import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
@@ -568,7 +562,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   Future<void> _checkTutorial() async {
-    final hasSeenTutorial = await TutorialOverlay.hasSeenTutorial();
+    final hasSeenTutorial = await GameTutorialOverlay.hasSeenTutorial();
     if (!hasSeenTutorial && mounted) {
       setState(() {
         _showTutorial = true;
@@ -725,7 +719,7 @@ class _GamePageState extends State<GamePage> {
 
             // Tutorial overlay
             if (_showTutorial)
-              TutorialOverlay(
+              GameTutorialOverlay(
                 onComplete: () {
                   setState(() {
                     _showTutorial = false;
