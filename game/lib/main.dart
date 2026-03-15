@@ -1,14 +1,7 @@
 import 'dart:async';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/systems.dart';
-import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
-import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
-import 'package:mg_common_game/systems/battlepass/battlepass_manager.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mg_common_game/core/audio/audio_manager.dart';
-import 'package:mg_common_game/core/ui/theme/game_theme.dart';
 import 'package:mg_common_game/core/ui/overlays/game_toast.dart';
 import 'package:mg_common_game/core/ui/layouts/game_scaffold.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
@@ -23,15 +16,6 @@ import 'package:mg_common_game/core/engine/event_bus.dart';
 import 'package:mg_common_game/core/systems/save_system.dart';
 import 'package:mg_common_game/core/engine/game_manager.dart';
 import 'package:mg_common_game/core/engine/input_manager.dart';
-import 'package:mg_common_game/systems/progression/progression_manager.dart';
-import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
-import 'package:mg_common_game/systems/progression/achievement_manager.dart';
-import 'package:mg_common_game/systems/progression/prestige_manager.dart';
-import 'package:mg_common_game/systems/quests/daily_quest.dart';
-import 'package:mg_common_game/systems/quests/weekly_challenge.dart';
-import 'package:mg_common_game/systems/stats/statistics_manager.dart';
-import 'package:mg_common_game/systems/settings/settings_manager.dart';
-import 'package:mg_common_game/core/systems/save_manager_helper.dart';
 import 'package:mg_common_game/mg_common_game.dart';
 
 import 'package:tower_defense/game/tower_defense_game.dart';
@@ -731,69 +715,6 @@ class _GamePageState extends State<GamePage> {
       ),
     );
   }
-}
-
-
-void _registerDailyQuests() {
-  final dailyQuest = GetIt.I<DailyQuestManager>();
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'collect_gold',
-    title: '골드 모으기',
-    description: '골드 1000 획득',
-    targetValue: 1000,
-    goldReward: 500,
-    xpReward: 10,
-  ));
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'play_games',
-    title: '게임 플레이',
-    description: '게임 5판 플레이',
-    targetValue: 5,
-    goldReward: 300,
-    xpReward: 5,
-  ));
-  
-  dailyQuest.registerQuest(DailyQuest(
-    id: 'level_up',
-    title: '레벨업',
-    description: '레벨 1 상승',
-    targetValue: 1,
-    goldReward: 200,
-    xpReward: 3,
-  ));
-}
-
-
-void _registerAchievements() {
-  final achievement = GetIt.I<AchievementManager>();
-  
-  achievement.registerAchievement(Achievement(
-    id: 'gold_1000',
-    title: '골드 1000 달성',
-    description: '총 골드 1000을 모으세요',
-    iconAsset: 'assets/achievements/gold_1000.png',
-  ));
-  
-  achievement.registerAchievement(Achievement(
-    id: 'level_10',
-    title: '레벨 10 달성',
-    description: '레벨 10에 도달하세요',
-    iconAsset: 'assets/achievements/level_10.png',
-  ));
-  
-  achievement.registerAchievement(Achievement(
-    id: 'play_100',
-    title: '100판 플레이',
-    description: '게임을 100판 플레이하세요',
-    iconAsset: 'assets/achievements/play_100.png',
-  ));
-}
-
-
-void _setupBattlePass() {
-  // Deprecated setup path kept intentionally as no-op.
 }
 
 

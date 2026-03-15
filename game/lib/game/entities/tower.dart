@@ -19,7 +19,6 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
   int upgradeLevel = 0; // 0 = base, 1-2 = upgraded
   static const int maxUpgradeLevel = 2;
 
-  double _rotation = 0;
   late final Sprite baseSprite;
   late final Sprite turretSprite;
 
@@ -158,12 +157,11 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     if (target != null) {
       // Update Rotation to face target
       final dir = target.position - position;
-      _rotation = dir.screenAngle();
+      angle = dir.screenAngle();
     }
 
     if (target != null) {
       // VFX: Tower attack effect
-      final stats = TowerStats.get(towerType);
       Color attackColor = MGColors.warning;
       switch (towerType) {
         case TowerType.splash:
@@ -252,21 +250,4 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     );
   }
 
-
-  Color _getAttackColor() {
-    switch (towerType) {
-      case TowerType.basic:
-        return Colors.yellow;
-      case TowerType.splash:
-        return MGColors.warning;
-      case TowerType.slow:
-        return Colors.lightBlue;
-      case TowerType.sniper:
-        return MGColors.error;
-      case TowerType.air:
-        return Colors.cyan;
-      default:
-        return MGColors.textHighEmphasis;
-    }
-  }
 }
