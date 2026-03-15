@@ -174,6 +174,13 @@ class MGGameHud extends StatelessWidget {
         MGSpacing.hXs,
         // DailyHub
         MGIconButton(
+          icon: Icons.calendar_today,
+          onPressed: onDailyHub,
+          size: 40,
+          backgroundColor: Colors.black54,
+          color: Colors.tealAccent,
+        ),
+        MGSpacing.hXs,
         if (onGuildWar != null)
           MGIconButton(
             icon: Icons.shield,
@@ -203,13 +210,6 @@ class MGGameHud extends StatelessWidget {
             color: MGColors.textHighEmphasis,
             tooltip: 'Seasonal Event',
           ),
-        MGSpacing.hXs,
-          icon: Icons.calendar_today,
-          onPressed: onDailyHub,
-          size: 40,
-          backgroundColor: Colors.black54,
-          color: Colors.tealAccent,
-        ),
       ],
     );
   }

@@ -793,31 +793,7 @@ void _registerAchievements() {
 
 
 void _setupBattlePass() {
-  final bp = GetIt.I<BattlePassManager>();
-  
-  // 무료 트랙 (50개 티어)
-  for (int i = 1; i <= 50; i++) {
-    bp.addFreeTierReward(
-      tier: i,
-      reward: Reward(gold: 100 * i),
-    );
-    
-    // 5레벨마다 Gems 추가
-    if (i % 5 == 0) {
-      bp.addFreeTierReward(
-        tier: i,
-        reward: Reward(gold: 100 * i, gems: 10 * (i ~/ 5)),
-      );
-    }
-  }
-  
-  // 프리미엄 트랙
-  for (int i = 1; i <= 50; i++) {
-    bp.addPremiumTierReward(
-      tier: i,
-      reward: Reward(gold: 200 * i, gems: 20 * (i ~/ 5)),
-    );
-  }
+  // Deprecated setup path kept intentionally as no-op.
 }
 
 
@@ -870,7 +846,7 @@ void _registerCollections() {
   final collection = GetIt.I<CollectionManager>();
 
   // Characters 컬렉션
-  collection.registerCollection(const Collection(
+  collection.registerCollection(Collection(
     id: 'characters',
     name: '캐릭터',
     description: '모든 캐릭터를 수집하세요',

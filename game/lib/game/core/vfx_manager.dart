@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/engine/effects/flame_effects.dart';
 
 /// VFX Manager for tower defense specific visual effects
-class VfxManager extends Component with HasGameRef {
+class VfxManager extends Component with HasGameReference {
   VfxManager();
 
   /// Show tower attack effect - muzzle flash particle
   void showTowerAttack(Vector2 position, Color color) {
-    gameRef.add(
+    game.add(
       FlameParticleEffect.hit(
         position: position.clone(),
         color: color,
@@ -19,7 +19,7 @@ class VfxManager extends Component with HasGameRef {
   /// Show monster death effect - explosion + coins
   void showMonsterDeath(Vector2 position, {int goldReward = 0}) {
     // Explosion effect
-    gameRef.add(
+    game.add(
       FlameParticleEffect.explosion(
         position: position.clone(),
         color: Colors.orange,
@@ -28,10 +28,10 @@ class VfxManager extends Component with HasGameRef {
 
     // Gold coins effect if there's a reward
     if (goldReward > 0) {
-      gameRef.add(
-        FlameParticleEffect.coins(
+      game.add(
+        FlameParticleEffect.sparkle(
           position: position.clone() + Vector2(0, -10),
-          count: goldReward.clamp(5, 15),
+          color: Colors.amber,
         ),
       );
     }
@@ -39,7 +39,7 @@ class VfxManager extends Component with HasGameRef {
 
   /// Show bullet impact effect
   void showBulletImpact(Vector2 position, {bool isSplash = false}) {
-    gameRef.add(
+    game.add(
       FlameParticleEffect.hit(
         position: position.clone(),
         color: isSplash ? Colors.red : Colors.white,
@@ -51,7 +51,7 @@ class VfxManager extends Component with HasGameRef {
   /// Show wave complete celebration effect
   void showWaveComplete(Vector2 position) {
     // Multi-colored celebration particles
-    gameRef.add(
+    game.add(
       FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.green,
@@ -61,7 +61,7 @@ class VfxManager extends Component with HasGameRef {
     // Add secondary burst
     Future.delayed(const Duration(milliseconds: 200), () {
       if (!isMounted) return;
-      gameRef.add(
+      game.add(
         FlameParticleEffect.sparkle(
           position: position.clone(),
           color: Colors.yellow,
@@ -73,7 +73,7 @@ class VfxManager extends Component with HasGameRef {
   /// Show boss kill effect with screen shake
   void showBossKill(Vector2 position) {
     // Large explosion
-    gameRef.add(
+    game.add(
       FlameParticleEffect.explosion(
         position: position.clone(),
         color: Colors.purple,
@@ -82,19 +82,17 @@ class VfxManager extends Component with HasGameRef {
     );
 
     // Screen shake effect
-    if (gameRef.camera.viewport is Component) {
-      (gameRef.camera.viewport as Component).add(
-        FlameScreenShake(
-          intensity: 8.0,
-          duration: 0.8,
-        ),
-      );
-    }
+    (game.camera.viewport as Component).add(
+      FlameScreenShake(
+        intensity: 8.0,
+        duration: 0.8,
+      ),
+    );
   }
 
   /// Show damage number
   void showDamageNumber(Vector2 position, double damage, {Color? color}) {
-    gameRef.add(
+    game.add(
       FlameDamageNumber(
         amount: damage.toInt(),
         position: position.clone(),
@@ -105,7 +103,7 @@ class VfxManager extends Component with HasGameRef {
 
   /// Show tower upgrade effect
   void showTowerUpgrade(Vector2 position) {
-    gameRef.add(
+    game.add(
       FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.yellow,
@@ -115,7 +113,7 @@ class VfxManager extends Component with HasGameRef {
 
   /// Show tower build effect
   void showTowerBuild(Vector2 position) {
-    gameRef.add(
+    game.add(
       FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.green,
@@ -125,11 +123,10 @@ class VfxManager extends Component with HasGameRef {
 
   /// Show slow effect indicator
   void showSlowEffect(Vector2 position) {
-    gameRef.add(
-      FlameParticlePresets.burst(
+    game.add(
+      FlameParticleEffect.sparkle(
         position: position.clone(),
         color: Colors.lightBlue,
-        count: 12,
       ),
     );
   }
