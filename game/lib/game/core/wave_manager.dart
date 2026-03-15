@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:tower_defense/game/tower_defense_game.dart';
@@ -27,7 +28,7 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
   final StageInfo? stageInfo;
 
   int _stage = 1;
-  List<WaveDefinition> _waves = [];
+  final List<WaveDefinition> _waves = [];
 
   WaveManager({required this.mapSystem, this.stageInfo}) {
     if (stageInfo != null) {
@@ -129,7 +130,7 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
     // Shuffle for variety
     _spawnQueue.shuffle(_random);
 
-    print('Stage $_stage - Wave $currentWave Started!');
+    debugPrint('Stage $_stage - Wave $currentWave Started!');
   }
 
   @override
@@ -173,7 +174,7 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
   }
 
   void _onWaveComplete() {
-    print('Wave $currentWave Complete!');
+    debugPrint('Wave $currentWave Complete!');
     _isWaveActive = false;
 
     // VFX: Wave complete celebration at center of screen

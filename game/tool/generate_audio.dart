@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:math';
@@ -20,11 +21,11 @@ void main() async {
 
   for (final entry in files.entries) {
     final file = File('assets/audio/${entry.key}');
-    print('Generating ${file.path}...');
+    debugPrint('Generating ${file.path}...');
     final bytes = _generateWav(entry.value, 0.2); // 0.2 seconds
     await file.writeAsBytes(bytes);
   }
-  print('Audio generation complete.');
+  debugPrint('Audio generation complete.');
 }
 
 Uint8List _generateWav(double frequency, double duration) {
