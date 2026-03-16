@@ -13,7 +13,7 @@ const kTowerArcherMeta = SpineAssetMeta(
   path: 'spine/characters/tower_archer',
   atlasPath: 'assets/spine/characters/tower_archer/tower_archer.atlas',
   skeletonPath:
-      'assets/spine/characters/tower_archer/tower_archer.skel',
+      'assets/spine/characters/tower_archer/tower_archer.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,
@@ -26,7 +26,7 @@ const kTowerKnightMeta = SpineAssetMeta(
   path: 'spine/characters/tower_knight',
   atlasPath: 'assets/spine/characters/tower_knight/tower_knight.atlas',
   skeletonPath:
-      'assets/spine/characters/tower_knight/tower_knight.skel',
+      'assets/spine/characters/tower_knight/tower_knight.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,
@@ -39,7 +39,7 @@ const kTowerMageMeta = SpineAssetMeta(
   path: 'spine/characters/tower_mage',
   atlasPath: 'assets/spine/characters/tower_mage/tower_mage.atlas',
   skeletonPath:
-      'assets/spine/characters/tower_mage/tower_mage.skel',
+      'assets/spine/characters/tower_mage/tower_mage.json',
   animations: ['idle', 'walk', 'attack', 'hit'],
   defaultAnimation: 'idle',
   defaultMix: 0.2,
