@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
@@ -32,7 +33,7 @@ class TowerManageDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         width: 350,
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(MGSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
@@ -52,7 +53,7 @@ class TowerManageDialog extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: MGSpacing.xs),
 
             // Upgrade Level
             if (tower.upgradeLevel > 0)
@@ -63,11 +64,11 @@ class TowerManageDialog extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-            const SizedBox(height: 16),
+            const SizedBox(height: MGSpacing.md),
 
             // Stats
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(MGSpacing.sm),
               decoration: BoxDecoration(
                 color: AppColors.surface.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(8),
@@ -75,14 +76,14 @@ class TowerManageDialog extends StatelessWidget {
               child: Column(
                 children: [
                   _buildStatRow('Damage', tower.damage.toInt().toString()),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: MGSpacing.xs),
                   _buildStatRow('Range', tower.range.toInt().toString()),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: MGSpacing.xs),
                   _buildStatRow('Speed', '${(1.0 / tower.attackSpeed).toStringAsFixed(1)}/s'),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: MGSpacing.lg),
 
             // Upgrade Button
             if (tower.canUpgrade())
@@ -122,7 +123,7 @@ class TowerManageDialog extends StatelessWidget {
                   ),
                 ),
               ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
 
             // Sell Button
             SizedBox(
@@ -141,7 +142,7 @@ class TowerManageDialog extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
 
             // Cancel Button
             TextButton(

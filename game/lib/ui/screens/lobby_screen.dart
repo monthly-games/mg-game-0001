@@ -1,4 +1,6 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/ui/layouts/game_scaffold.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
@@ -22,6 +24,7 @@ import 'battlepass_screen.dart';
 import 'gacha_screen.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
+
 class LobbyScreen extends StatelessWidget {
   const LobbyScreen({super.key});
 
@@ -39,33 +42,79 @@ class LobbyScreen extends StatelessWidget {
                 children: [
                   // Logo
                   Image.asset('assets/images/logo.png', width: 300),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
+
+                  // Interactive Spine Character Placeholder
+                  GestureDetector(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Tower Guardian greets you!'),
+                          duration: Duration(seconds: 1),
+                          backgroundColor: Colors.amber,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.amber.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.amber.shade700, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.amber.withValues(alpha: 0.3),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.person, size: 40, color: Colors.white),
+                          SizedBox(height: 4),
+                          Text(
+                            'Guardian',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
 
                   // Quick Start Button
                   _buildMenuButton(
               context,
-              label: 'QUICK START',
+              label: 'Quick Start',
               onTap: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const GamePage()),
                 );
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
                   // Stage Select Button
             _buildMenuButton(
               context,
-              label: 'SELECT STAGE',
+              label: 'Select Stage',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const StageSelectScreen()),
                 );
               },
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
                   _buildMenuButton(
               context,
-              label: 'PRESTIGE',
+              label: 'Prestige',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -108,10 +157,10 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
-              label: 'DAILY QUESTS',
+              label: 'Daily Quests',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -134,10 +183,10 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
-              label: 'WEEKLY CHALLENGES',
+              label: 'Weekly Challenges',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -164,10 +213,10 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
-              label: 'BATTLEPASS',
+              label: 'Battle Pass',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -177,10 +226,10 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
-              label: 'GACHA',
+              label: 'Gacha',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -190,7 +239,7 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
               label: 'STATISTICS',
@@ -212,10 +261,28 @@ class LobbyScreen extends StatelessWidget {
               },
               isSecondary: true,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildMenuButton(
               context,
-              label: 'SETTINGS',
+              label: 'FRIENDS',
+              onTap: () {
+                Navigator.of(context).pushNamed('/friends');
+              },
+              isSecondary: true,
+            ),
+            const SizedBox(height: MGSpacing.sm),
+            _buildMenuButton(
+              context,
+              label: 'LEADERBOARD',
+              onTap: () {
+                Navigator.of(context).pushNamed('/leaderboard');
+              },
+              isSecondary: true,
+            ),
+            const SizedBox(height: MGSpacing.sm),
+            _buildMenuButton(
+              context,
+              label: 'Settings',
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(

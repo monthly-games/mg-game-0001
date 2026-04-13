@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
+
 
 /// MG UI 기반 타워 디펜스 HUD
 /// mg_common_game의 공통 UI 컴포넌트 활용
@@ -68,6 +70,45 @@ class MGGameHud extends StatelessWidget {
 
           // 중앙 영역 확장
           const Expanded(child: SizedBox()),
+
+          // Spine 캐릭터 표시 (중앙)
+          Center(
+            child: GestureDetector(
+              onTap: () {
+                HapticFeedback.lightImpact();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Tower Commander greets you!"),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              },
+              child: Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.blue.withValues(alpha: 0.7),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.blue.shade300, width: 2),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.person, size: 28, color: Colors.white),
+                    SizedBox(height: 4),
+                    Text(
+                      'Commander',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
 
           // 하단 HUD: 타워 빌드 + 다음 웨이브
           Container(
@@ -265,7 +306,7 @@ class MGGameHud extends StatelessWidget {
       children: [
         // 타워 건설 버튼
         MGButton.primary(
-          label: 'BUILD',
+          label: 'Build Tower',
           icon: Icons.add_circle,
           size: MGButtonSize.small,
           onPressed: onBuildTower,
@@ -273,7 +314,7 @@ class MGGameHud extends StatelessWidget {
         MGSpacing.hMd,
         // 다음 웨이브 버튼
         MGButton(
-          label: 'NEXT WAVE',
+          label: 'Next Wave',
           icon: Icons.fast_forward,
           style: MGButtonStyle.filled,
           size: MGButtonSize.small,
@@ -288,7 +329,7 @@ class MGGameHud extends StatelessWidget {
     return GestureDetector(
       onTap: onSpeedChange,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(MGSpacing.xs),
         decoration: BoxDecoration(
           color: Colors.black54,
           borderRadius: BorderRadius.circular(8),

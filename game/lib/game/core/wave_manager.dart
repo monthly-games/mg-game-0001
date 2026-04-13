@@ -160,9 +160,13 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
 
   void _spawnMonster(MonsterType type) {
     // Calculate Scaled Stats using stage difficulty multiplier
+    // BALANCE FIX: Stages 26+ use reduced scaling (0.10 vs 0.15) to prevent HP spike
+    // This smooths the difficulty curve and prevents the 67% HP jump that was causing
+    // players to lose 75% of their lives when entering Nightmare stages.
     final stats = MonsterStats.get(type);
     final difficultyMult = stageInfo?.difficultyMultiplier ?? 1.0;
-    final hpMultiplier = 1.0 + (_stage * 0.15) * difficultyMult;
+    final scalingFactor = _stage >= 26 ? 0.10 : 0.15;
+    final hpMultiplier = 1.0 + (_stage * scalingFactor) * difficultyMult;
     final scaledHp = stats.maxHp * hpMultiplier;
 
     final monster = Monster(

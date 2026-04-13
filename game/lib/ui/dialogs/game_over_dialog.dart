@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/core/ui/theme/app_text_styles.dart';
@@ -25,7 +26,7 @@ class GameOverDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         width: 400,
-        padding: const EdgeInsets.all(32),
+        padding: const EdgeInsets.all(MGSpacing.xl),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
@@ -54,7 +55,7 @@ class GameOverDialog extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: MGSpacing.lg),
 
             // Stats
             _buildStatRow(
@@ -62,13 +63,13 @@ class GameOverDialog extends StatelessWidget {
               '$wave',
               isVictory ? MGColors.success : MGColors.warning,
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildStatRow(
               'Gold Earned:',
               '$goldEarned',
               AppColors.secondary,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: MGSpacing.xl),
 
             // Buttons
             Column(
@@ -79,7 +80,7 @@ class GameOverDialog extends StatelessWidget {
                   color: AppColors.primary,
                   onPressed: onRestart,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: MGSpacing.sm),
                 _buildButton(
                   label: 'MAIN MENU',
                   icon: Icons.home,

@@ -332,6 +332,9 @@ class StageData {
     ),
 
     // Chapter 6: Endless (Stages 26-30)
+    // BALANCE FIX: Smoothed life reduction (20 -> 18 -> 15 -> 12 -> 10 -> 8)
+    // Previous: 20 -> 15 -> 10 -> 5 (75% drop was too harsh)
+    // New gradual decrease allows players to adapt to increasing difficulty
     ChapterInfo(
       name: 'Endless',
       description: 'Ultimate challenge awaits the brave.',
@@ -344,7 +347,7 @@ class StageData {
           availableTowers: _allTowers,
           monsterTypes: _allMonstersNoBoss,
           startingGold: 650,
-          startingLives: 15,
+          startingLives: 18,
           difficultyMultiplier: 3.2,
         ),
         StageInfo(
@@ -364,7 +367,7 @@ class StageData {
           availableTowers: _allTowers,
           monsterTypes: _allMonstersNoBoss,
           startingGold: 750,
-          startingLives: 10,
+          startingLives: 12,
           difficultyMultiplier: 4.0,
         ),
         StageInfo(
@@ -385,7 +388,7 @@ class StageData {
           availableTowers: _allTowers,
           monsterTypes: _allMonstersNoBoss,
           startingGold: 1000,
-          startingLives: 5,
+          startingLives: 8,
           difficultyMultiplier: 5.0,
           hasBoss: true,
         ),

@@ -28,22 +28,27 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  google_mobile_ads: ^5.2.0
+  provider: ^6.0.0
+  google_mobile_ads: ^7.0.0
   flutter:
     sdk: flutter
   flame: ^1.14.0
   flame_spine: ^0.3.0+1
   mg_common_game:
-    path: ../../../libs/mg_common_game
+    path: ../libs/mg_common_game
 
   cupertino_icons: ^1.0.8
-  firebase_core: ^2.32.0
+  firebase_core: ^4.6.0
+  cloud_firestore: ^6.2.0
+  firebase_auth: ^6.3.0
+  firebase_remote_config: ^6.3.0
   get_it: ^9.2.0
   logger: ^2.6.2
   image: ^4.6.0
   shared_preferences: ^2.5.4
 
-  firebase_analytics: any
+  firebase_analytics: ^12.2.0
+  firebase_messaging: ^16.1.3
 dev_dependencies:
   integration_test:
     sdk: flutter
@@ -56,6 +61,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  patrol: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

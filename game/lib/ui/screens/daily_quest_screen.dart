@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 // ============================================================
-// Daily Quest Screen — MG-0001 Tower Defense
+// Daily Quest Screen -- MG-0001 Tower Defense
 // Genre: Tower Defense · Retention System UI
 //
 // Firebase Analytics Events:
@@ -11,6 +11,7 @@
 //
 // Template: Based on MG-0010 canonical template.
 // ============================================================
+
 
 import 'dart:async';
 
@@ -330,7 +331,7 @@ class _DailyQuestScreenState extends State<DailyQuestScreen> {
               const Spacer(),
               if (isClaimable)
                 MGButton(
-                  label: 'Claim',
+                  label: 'Claim Reward',
                   size: MGButtonSize.small,
                   icon: Icons.card_giftcard_rounded,
                   backgroundColor: MGColors.success,

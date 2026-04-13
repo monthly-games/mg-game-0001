@@ -5,12 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 /// Verifies deployed Spine assets for tower_archer exist at
 /// the paths referenced by spine_config.dart.
 ///
-/// This is a plain Dart test (no widget pump needed) — it checks
+/// This is a plain Dart test (no widget pump needed) -- it checks
 /// the file system directly to confirm assets are in place.
 void main() {
   const basePath = 'assets/spine/characters/tower_archer';
 
-  group('Spine Assets — tower_archer', () {
+  group('Spine Assets -- tower_archer', () {
     test(
       'Given deployed assets, '
       'When checking skeleton JSON, '

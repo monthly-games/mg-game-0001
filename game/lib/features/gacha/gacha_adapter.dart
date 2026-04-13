@@ -81,26 +81,18 @@ class TowerGachaAdapter extends ChangeNotifier {
   }
 
   /// 단일 뽑기
-  Tower? pullSingle() {
+  GachaItem? pullSingle() {
     final result = _gachaManager.pull(_poolId);
     if (result == null) return null;
     notifyListeners();
-    return _convertToItem(result.item);
+    return result.item;
   }
 
   /// 10연차
-  List<Tower> pullTen() {
+  List<GachaItem> pullTen() {
     final results = _gachaManager.multiPull(_poolId, count: 10);
     notifyListeners();
-    return results.map((r) => _convertToItem(r.item)).toList();
-  }
-
-  Tower _convertToItem(GachaItem item) {
-    return Tower(
-      id: item.id,
-      name: item.nameKr,
-      rarity: item.rarity,
-    );
+    return results.map((r) => r.item).toList();
   }
 
   /// 천장까지 남은 횟수

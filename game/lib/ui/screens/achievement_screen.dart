@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 // ============================================================
-// Achievement Screen — MG-0001 Tower Defense
+// Achievement Screen -- MG-0001 Tower Defense
 // Genre: Tower Defense · Retention System UI
 //
 // Firebase Analytics Events:

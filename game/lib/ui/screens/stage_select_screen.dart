@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/ui/layouts/game_scaffold.dart';
@@ -30,14 +31,14 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
           // Header
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(MGSpacing.md),
               child: Row(
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.arrow_back, color: MGColors.textHighEmphasis, size: 32),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: MGSpacing.md),
                   Text(
                     'SELECT STAGE',
                     style: AppTextStyles.header1.copyWith(
@@ -99,7 +100,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
               }),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: MGSpacing.md),
 
           // Stage Grid
           Expanded(
@@ -115,7 +116,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
     final stages = chapter.stages;
 
     return GridView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(MGSpacing.md),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 5,
         crossAxisSpacing: 12,
@@ -203,7 +204,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
                 ),
               ),
               if (isCleared) ...[
-                const SizedBox(height: 4),
+                const SizedBox(height: MGSpacing.xxs),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(3, (i) {

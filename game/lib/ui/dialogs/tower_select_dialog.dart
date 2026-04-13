@@ -1,3 +1,4 @@
+import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
@@ -24,7 +25,7 @@ class TowerSelectDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Container(
         width: 600, // Increased width for lock info
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(MGSpacing.lg),
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
@@ -49,12 +50,11 @@ class TowerSelectDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
-            StreamBuilder<int>(
-              stream: GetIt.I<GoldManager>().onGoldChanged,
-              initialData: GetIt.I<GoldManager>().currentGold,
-              builder: (context, snapshot) {
-                final currentGold = snapshot.data ?? 0;
+            const SizedBox(height: MGSpacing.lg),
+            ListenableBuilder(
+              listenable: GetIt.I<GoldManager>(),
+              builder: (context, _) {
+                final currentGold = GetIt.I<GoldManager>().currentGold;
                 return Wrap(
                   spacing: 12,
                   runSpacing: 12,
@@ -72,7 +72,7 @@ class TowerSelectDialog extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: MGSpacing.lg),
             ElevatedButton(
               onPressed: onCancel,
               style: ElevatedButton.styleFrom(
@@ -93,7 +93,7 @@ class TowerSelectDialog extends StatelessWidget {
   Widget _buildLockedCard(TowerStats stats) {
     return Container(
       width: 220,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(MGSpacing.md),
       decoration: BoxDecoration(
         color: Colors.grey.shade900.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
@@ -103,12 +103,12 @@ class TowerSelectDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.lock, size: 48, color: MGColors.common),
-          const SizedBox(height: 12),
+          const SizedBox(height: MGSpacing.sm),
           Text(
             stats.name,
             style: AppTextStyles.header2.copyWith(color: MGColors.common),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: MGSpacing.xs),
           Text(
             'Unlocks at Stage ${stats.unlockStage}',
             style: AppTextStyles.caption.copyWith(color: Colors.redAccent),
@@ -124,7 +124,7 @@ class TowerSelectDialog extends StatelessWidget {
       onTap: canAfford ? () => onTowerSelected(type) : null,
       child: Container(
         width: 220,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(MGSpacing.md),
         decoration: BoxDecoration(
           color: canAfford
               ? AppColors.surface.withValues(alpha: 0.8)
@@ -166,7 +166,7 @@ class TowerSelectDialog extends StatelessWidget {
                         size: 16,
                         color: MGColors.textHighEmphasis,
                       ),
-                      const SizedBox(width: 4),
+                      const SizedBox(width: MGSpacing.xxs),
                       Text(
                         '${stats.cost}',
                         style: AppTextStyles.body.copyWith(
@@ -179,7 +179,7 @@ class TowerSelectDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: MGSpacing.xs),
             Text(
               stats.description,
               style: AppTextStyles.caption.copyWith(
@@ -187,11 +187,11 @@ class TowerSelectDialog extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: MGSpacing.sm),
             _buildStatRow('DMG', stats.damage.toInt().toString(), canAfford),
-            const SizedBox(height: 4),
+            const SizedBox(height: MGSpacing.xxs),
             _buildStatRow('RNG', stats.range.toInt().toString(), canAfford),
-            const SizedBox(height: 4),
+            const SizedBox(height: MGSpacing.xxs),
             _buildStatRow(
               'SPD',
               '${(1.0 / stats.attackSpeed).toStringAsFixed(1)}/s',
