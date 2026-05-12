@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 import 'package:mg_common_game/core/ui/layout/mg_spacing.dart';
 import 'package:mg_common_game/core/ui/widgets/battlepass/battlepass.dart';
-import 'package:mg_common_game/systems/battlepass/battlepass_config.dart';
 import '../../features/battlepass/battlepass_adapter.dart';
 
 

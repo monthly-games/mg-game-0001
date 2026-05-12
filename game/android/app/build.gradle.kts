@@ -39,7 +39,7 @@ android {
         applicationId = "com.monthlygames.game0001"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21  // Patrol requires minSdk 21+
+        minSdk = flutter.minSdkVersion  // Patrol requires minSdk 21+
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -48,7 +48,7 @@ android {
         testInstrumentationRunner = "leancode.patrol.PatrolRunner"
 
         // Enable test coverage
-        testCoverageEnabled = true
+        // // // // testCoverageEnabled = true
     }
 
     buildTypes {

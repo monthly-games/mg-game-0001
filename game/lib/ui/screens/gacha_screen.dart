@@ -183,7 +183,6 @@ class _GachaScreenState extends State<GachaScreen> {
     GachaRarity.legendary => MGColors.legendary,
     GachaRarity.superRare => MGColors.epic,
     GachaRarity.ultraRare => MGColors.epic,
-    GachaRarity.superRare => MGColors.rare,
     GachaRarity.rare => MGColors.uncommon,
     GachaRarity.normal => MGColors.common,
   };

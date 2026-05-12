@@ -159,7 +159,6 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     }
   }
 
-  @override
   void onTapUp(TapUpInfo info) {
     final pos = info.eventPosition.widget;
     final gx = (pos.x / MapSystem.tileSize).floor();
