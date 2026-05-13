@@ -32,7 +32,7 @@ class StageInfo {
     required this.monsterTypes,
     this.startingGold = 200,
     this.startingLives = 20,
-    this.difficultyMultiplier = 1.0,
+    this.difficultyMultiplier = 0.722,
     this.hasBoss = false,
   });
 }

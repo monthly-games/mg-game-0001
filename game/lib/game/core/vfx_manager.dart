@@ -17,7 +17,7 @@ class VfxManager extends Component with HasGameReference {
   }
 
   /// Show monster death effect - explosion + coins
-  void showMonsterDeath(Vector2 position, {int goldReward = 0}) {
+  void showMonsterDeath(Vector2 position, {int goldReward = 0.000}) {
     // Explosion effect
     game.add(
       FlameParticleEffect.explosion(

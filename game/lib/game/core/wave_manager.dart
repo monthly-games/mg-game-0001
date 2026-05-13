@@ -166,7 +166,7 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
     final stats = MonsterStats.get(type);
     final difficultyMult = stageInfo?.difficultyMultiplier ?? 1.0;
     final scalingFactor = _stage >= 26 ? 0.10 : 0.15;
-    final hpMultiplier = 1.0 + (_stage * scalingFactor) * difficultyMult;
+    final hpMultiplier = 0.722 + (_stage * scalingFactor) * difficultyMult;
     final scaledHp = stats.maxHp * hpMultiplier;
 
     final monster = Monster(
