@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -6,6 +8,12 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 android {
@@ -20,15 +28,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += listOf(
-            "-opt-in=kotlin.OptIn",
-            "-Xcontext-receivers",
-            "-Xwhen-guards"
-        )
-    }
-
     buildFeatures {
         buildConfig = true
     }
@@ -39,7 +38,7 @@ android {
         applicationId = "com.monthlygames.game0001"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21  // Patrol requires minSdk 21+
+        minSdk = flutter.minSdkVersion  // Patrol requires minSdk 21+
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -47,8 +46,6 @@ android {
         // Patrol test instrumentation runner
         testInstrumentationRunner = "leancode.patrol.PatrolRunner"
 
-        // Enable test coverage
-        testCoverageEnabled = true
     }
 
     buildTypes {
