@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -6,6 +8,12 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
 android {
@@ -18,15 +26,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += listOf(
-            "-opt-in=kotlin.OptIn",
-            "-Xcontext-receivers",
-            "-Xwhen-guards"
-        )
     }
 
     buildFeatures {
@@ -47,8 +46,6 @@ android {
         // Patrol test instrumentation runner
         testInstrumentationRunner = "leancode.patrol.PatrolRunner"
 
-        // Enable test coverage
-        // // // // testCoverageEnabled = true
     }
 
     buildTypes {
