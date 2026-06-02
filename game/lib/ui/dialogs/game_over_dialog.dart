@@ -36,7 +36,9 @@ class GameOverDialog extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: (isVictory ? MGColors.success : MGColors.error).withValues(alpha: 0.5),
+              color: (isVictory ? MGColors.success : MGColors.error).withValues(
+                alpha: 0.5,
+              ),
               blurRadius: 20,
               spreadRadius: 5,
             ),
@@ -64,11 +66,7 @@ class GameOverDialog extends StatelessWidget {
               isVictory ? MGColors.success : MGColors.warning,
             ),
             const SizedBox(height: MGSpacing.sm),
-            _buildStatRow(
-              'Gold Earned:',
-              '$goldEarned',
-              AppColors.secondary,
-            ),
+            _buildStatRow('Gold Earned:', '$goldEarned', AppColors.secondary),
             const SizedBox(height: MGSpacing.xl),
 
             // Buttons
@@ -129,17 +127,12 @@ class GameOverDialog extends StatelessWidget {
       child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: Icon(icon, size: 24),
-        label: Text(
-          label,
-          style: AppTextStyles.button.copyWith(fontSize: 18),
-        ),
+        label: Text(label, style: AppTextStyles.button.copyWith(fontSize: 18)),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: MGColors.textHighEmphasis,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 8,
         ),
       ),

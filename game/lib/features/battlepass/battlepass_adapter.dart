@@ -93,16 +93,24 @@ class TowerBattlePass extends ChangeNotifier {
   }
 
   // === Getters ===
-  Set<int> get claimedPremiumLevels => _manager.state?.claimedPremiumLevels ?? {};
+  Set<int> get claimedPremiumLevels =>
+      _manager.state?.claimedPremiumLevels ?? {};
   Set<int> get claimedFreeLevels => _manager.state?.claimedFreeLevels ?? {};
-  Set<String> get claimedMissions => _manager.state?.missionProgress.values
-      .where((mp) => mp.isClaimed)
-      .map((mp) => mp.missionId)
-      .toSet() ?? {};
-  List<BPMission> get missions => [..._manager.dailyMissions, ..._manager.weeklyMissions];
-  Map<String, int> get missionProgress => _manager.state?.missionProgress.map(
-    (key, value) => MapEntry(key, value.currentValue),
-  ) ?? {};
+  Set<String> get claimedMissions =>
+      _manager.state?.missionProgress.values
+          .where((mp) => mp.isClaimed)
+          .map((mp) => mp.missionId)
+          .toSet() ??
+      {};
+  List<BPMission> get missions => [
+    ..._manager.dailyMissions,
+    ..._manager.weeklyMissions,
+  ];
+  Map<String, int> get missionProgress =>
+      _manager.state?.missionProgress.map(
+        (key, value) => MapEntry(key, value.currentValue),
+      ) ??
+      {};
   int get expToNextLevel => _manager.expToNextLevel;
   int get remainingDays => _manager.currentSeason?.remainingDays ?? 0;
   List<BPTier> get tiers => _manager.currentSeason?.tiers ?? [];

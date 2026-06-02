@@ -1,0 +1,376 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1779399468582,
+  "projectRoot": "D:\\mg-games\\repos\\mg-game-0001",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "docs"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "analytics": {
+      "path": "analytics",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1779399468186,
+      "keyFiles": []
+    },
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 0,
+      "lastAccessed": 1779399468187,
+      "keyFiles": []
+    },
+    "backend": {
+      "path": "backend",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1779399468187,
+      "keyFiles": []
+    },
+    "config": {
+      "path": "config",
+      "purpose": "Configuration files",
+      "fileCount": 1,
+      "lastAccessed": 1779399468188,
+      "keyFiles": [
+        "game_manifest.json"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 7,
+      "lastAccessed": 1779399468431,
+      "keyFiles": [
+        "bm_design.md",
+        "development_progress.md",
+        "DOCUMENT_AUDIT.md",
+        "fun_design.md",
+        "monetization_design.md"
+      ]
+    },
+    "game": {
+      "path": "game",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1779399468432,
+      "keyFiles": [
+        "analysis_options.yaml",
+        "build.log",
+        "firebase.json",
+        "pubspec.lock",
+        "pubspec.yaml"
+      ]
+    },
+    "libs": {
+      "path": "libs",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1779399468500,
+      "keyFiles": []
+    },
+    "marketing": {
+      "path": "marketing",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1779399468500,
+      "keyFiles": []
+    },
+    "raw_assets": {
+      "path": "raw_assets",
+      "purpose": null,
+      "fileCount": 6,
+      "lastAccessed": 1779399468567,
+      "keyFiles": [
+        "monster_goblin.png",
+        "monster_orc.png",
+        "projectile_arrow.png",
+        "projectile_bomb.png",
+        "tower_archer.png"
+      ]
+    },
+    "game\\assets": {
+      "path": "game\\assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1779399468568,
+      "keyFiles": []
+    },
+    "game\\build": {
+      "path": "game\\build",
+      "purpose": "Build output",
+      "fileCount": 0,
+      "lastAccessed": 1779399468568,
+      "keyFiles": []
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "game\\lib\\main.dart",
+      "accessCount": 33,
+      "lastAccessed": 1779419038321,
+      "type": "file"
+    },
+    {
+      "path": "game\\integration_test\\gameplay_verification_test.dart",
+      "accessCount": 9,
+      "lastAccessed": 1779416460821,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\advanced_gameplay_test.dart",
+      "accessCount": 9,
+      "lastAccessed": 1779417985880,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\fun_e2e_test.dart",
+      "accessCount": 7,
+      "lastAccessed": 1779415141674,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\tutorial_flow_test.dart",
+      "accessCount": 7,
+      "lastAccessed": 1779415173539,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\gameplay_verification_test.dart",
+      "accessCount": 6,
+      "lastAccessed": 1779417289486,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib",
+      "accessCount": 6,
+      "lastAccessed": 1779418836410,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games-repos-mg-game-0001\\3f66d4de-4cd9-4c3c-aee3-bb367de533b8\\tasks\\br78lv9xw.output",
+      "accessCount": 5,
+      "lastAccessed": 1779417197655,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games\\870b4584-75a1-469d-b835-77a1bc77f174\\tasks\\b0r8oyajb.output",
+      "accessCount": 3,
+      "lastAccessed": 1779412132244,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\widget_test.dart",
+      "accessCount": 3,
+      "lastAccessed": 1779414987468,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games-repos-mg-game-0001\\3f66d4de-4cd9-4c3c-aee3-bb367de533b8\\tasks\\bjlikm86u.output",
+      "accessCount": 3,
+      "lastAccessed": 1779416407005,
+      "type": "file"
+    },
+    {
+      "path": "game\\pubspec.yaml",
+      "accessCount": 3,
+      "lastAccessed": 1779418199957,
+      "type": "file"
+    },
+    {
+      "path": "game\\firebase.json",
+      "accessCount": 3,
+      "lastAccessed": 1779418692526,
+      "type": "file"
+    },
+    {
+      "path": "game\\integration_test\\game_loop_e2e_test.dart",
+      "accessCount": 2,
+      "lastAccessed": 1779415335811,
+      "type": "file"
+    },
+    {
+      "path": "game\\integration_test\\user_journey_e2e_test.dart",
+      "accessCount": 2,
+      "lastAccessed": 1779415394404,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games-repos-mg-game-0001\\3f66d4de-4cd9-4c3c-aee3-bb367de533b8\\tasks\\b9hzsszqc.output",
+      "accessCount": 2,
+      "lastAccessed": 1779415683786,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games-repos-mg-game-0001\\3f66d4de-4cd9-4c3c-aee3-bb367de533b8\\tasks\\bzk68ren7.output",
+      "accessCount": 2,
+      "lastAccessed": 1779415814708,
+      "type": "file"
+    },
+    {
+      "path": "game\\README.md",
+      "accessCount": 2,
+      "lastAccessed": 1779418307508,
+      "type": "file"
+    },
+    {
+      "path": "game",
+      "accessCount": 2,
+      "lastAccessed": 1779418481799,
+      "type": "directory"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games\\870b4584-75a1-469d-b835-77a1bc77f174\\tasks\\b1ud8t1o1.output",
+      "accessCount": 1,
+      "lastAccessed": 1779399640143,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\USER-5\\AppData\\Local\\Temp\\claude\\D--mg-games\\870b4584-75a1-469d-b835-77a1bc77f174\\tasks\\blbp7uqfw.output",
+      "accessCount": 1,
+      "lastAccessed": 1779412643511,
+      "type": "file"
+    },
+    {
+      "path": "game\\integration_test\\real_gameplay_e2e_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779415335741,
+      "type": "file"
+    },
+    {
+      "path": "game\\test_driver\\integration_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779415349356,
+      "type": "file"
+    },
+    {
+      "path": "game\\integration_test\\web_smoke_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779415828864,
+      "type": "file"
+    },
+    {
+      "path": "game\\test_web_e2e.sh",
+      "accessCount": 1,
+      "lastAccessed": 1779415838883,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib\\game\\level_design_config.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779415970501,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib\\game\\wave_spawn_table.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779415971122,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib\\game\\core\\vfx_manager.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779417637546,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib\\game\\core\\wave_manager.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779417637727,
+      "type": "file"
+    },
+    {
+      "path": "game\\lib\\game\\tower_defense_game.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779417806548,
+      "type": "file"
+    },
+    {
+      "path": "game\\test\\screenshot_capture_test.dart",
+      "accessCount": 1,
+      "lastAccessed": 1779418237120,
+      "type": "file"
+    },
+    {
+      "path": "game\\android\\app\\src\\main\\play\\store\\listings\\en-US\\description.txt",
+      "accessCount": 1,
+      "lastAccessed": 1779418314437,
+      "type": "file"
+    },
+    {
+      "path": "game\\android\\app\\src\\main\\play\\store\\listings\\en-US\\title.txt",
+      "accessCount": 1,
+      "lastAccessed": 1779418317713,
+      "type": "file"
+    },
+    {
+      "path": "game\\android\\app\\src\\main\\play\\store\\listings\\en-US\\shortdesc.txt",
+      "accessCount": 1,
+      "lastAccessed": 1779418321130,
+      "type": "file"
+    },
+    {
+      "path": "game\\STORE_METADATA.md",
+      "accessCount": 1,
+      "lastAccessed": 1779418343326,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1779418481898,
+      "type": "directory"
+    },
+    {
+      "path": "docs\\images\\gameplay-showcase.png",
+      "accessCount": 1,
+      "lastAccessed": 1779418489944,
+      "type": "file"
+    },
+    {
+      "path": "game\\scripts\\capture_screenshots.sh",
+      "accessCount": 1,
+      "lastAccessed": 1779418568784,
+      "type": "file"
+    },
+    {
+      "path": "game\\docs\\SCREENSHOT_GUIDE.md",
+      "accessCount": 1,
+      "lastAccessed": 1779418611091,
+      "type": "file"
+    },
+    {
+      "path": "game\\.firebaserc",
+      "accessCount": 1,
+      "lastAccessed": 1779418682053,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

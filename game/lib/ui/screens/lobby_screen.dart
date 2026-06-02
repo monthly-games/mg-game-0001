@@ -8,8 +8,7 @@ import 'package:mg_common_game/core/ui/theme/app_colors.dart';
 import 'package:mg_common_game/systems/progression/prestige_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
 import 'package:mg_common_game/core/ui/screens/prestige_screen.dart';
-import 'package:mg_common_game/systems/quests/daily_quest.dart';
-import 'package:mg_common_game/core/ui/screens/daily_quest_screen.dart';
+import 'package:mg_common_game/core/quest/daily_quest_system.dart';
 import 'package:mg_common_game/systems/quests/weekly_challenge.dart';
 import 'package:mg_common_game/core/ui/screens/weekly_challenge_screen.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
@@ -23,7 +22,6 @@ import 'stage_select_screen.dart';
 import 'battlepass_screen.dart';
 import 'gacha_screen.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
-
 
 class LobbyScreen extends StatelessWidget {
   const LobbyScreen({super.key});
@@ -62,7 +60,10 @@ class LobbyScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.amber.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.amber.shade700, width: 2),
+                        border: Border.all(
+                          color: Colors.amber.shade700,
+                          width: 2,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.amber.withValues(alpha: 0.3),
@@ -92,215 +93,214 @@ class LobbyScreen extends StatelessWidget {
 
                   // Quick Start Button
                   _buildMenuButton(
-              context,
-              label: 'Quick Start',
-              onTap: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const GamePage()),
-                );
-              },
-            ),
-            const SizedBox(height: MGSpacing.sm),
+                    context,
+                    label: 'Quick Start',
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const GamePage(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: MGSpacing.sm),
                   // Stage Select Button
-            _buildMenuButton(
-              context,
-              label: 'Select Stage',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const StageSelectScreen()),
-                );
-              },
-            ),
-            const SizedBox(height: MGSpacing.sm),
                   _buildMenuButton(
-              context,
-              label: 'Prestige',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => PrestigeScreen(
-                      prestigeManager: GetIt.I<PrestigeManager>(),
-                      progressionManager: GetIt.I<ProgressionManager>(),
-                      title: 'Tower Defense Prestige',
-                      accentColor: AppColors.primary,
-                      onClose: () => Navigator.of(context).pop(),
-                      onPrestige: () {
-                        // Perform prestige: gain points and reset
-                        final prestigeManager = GetIt.I<PrestigeManager>();
-                        final progressionManager = GetIt.I<ProgressionManager>();
+                    context,
+                    label: 'Select Stage',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const StageSelectScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Prestige',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PrestigeScreen(
+                            prestigeManager: GetIt.I<PrestigeManager>(),
+                            progressionManager: GetIt.I<ProgressionManager>(),
+                            title: 'Tower Defense Prestige',
+                            accentColor: AppColors.primary,
+                            onClose: () => Navigator.of(context).pop(),
+                            onPrestige: () {
+                              // Perform prestige: gain points and reset
+                              final prestigeManager =
+                                  GetIt.I<PrestigeManager>();
+                              final progressionManager =
+                                  GetIt.I<ProgressionManager>();
 
-                        final pointsGained = prestigeManager.performPrestige(
-                          progressionManager.currentLevel,
-                        );
+                              final pointsGained = prestigeManager
+                                  .performPrestige(
+                                    progressionManager.currentLevel,
+                                  );
 
-                        // Reset progression
-                        progressionManager.reset();
+                              // Reset progression
+                              progressionManager.reset();
 
-                        // TODO: Reset game-specific progress (gold, upgrades, etc.)
+                              // TODO: Reset game-specific progress (gold, upgrades, etc.)
 
-                        Navigator.of(context).pop();
+                              Navigator.of(context).pop();
 
-                        // Show success message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Prestige successful! Gained $pointsGained points!',
-                            ),
-                            backgroundColor: Colors.amber,
-                            duration: const Duration(seconds: 3),
+                              // Show success message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Prestige successful! Gained $pointsGained points!',
+                                  ),
+                                  backgroundColor: Colors.amber,
+                                  duration: const Duration(seconds: 3),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'Daily Quests',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => DailyQuestScreen(
-                      questManager: GetIt.I<DailyQuestManager>(),
-                      title: 'Daily Quests',
-                      accentColor: AppColors.primary,
-                      onClaimReward: (questId, goldReward, xpReward) {
-                        // Give rewards
-                        final goldManager = GetIt.I<GoldManager>();
-                        final progressionManager = GetIt.I<ProgressionManager>();
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Daily Quests',
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/daily');
+                    },
+                    isSecondary: true,
+                  ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Weekly Challenges',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => WeeklyChallengeScreen(
+                            challengeManager: GetIt.I<WeeklyChallengeManager>(),
+                            title: 'Weekly Challenges',
+                            accentColor: Colors.amber,
+                            onClaimReward:
+                                (
+                                  challengeId,
+                                  goldReward,
+                                  xpReward,
+                                  prestigeReward,
+                                ) {
+                                  // Give rewards
+                                  final goldManager = GetIt.I<GoldManager>();
+                                  final progressionManager =
+                                      GetIt.I<ProgressionManager>();
+                                  final prestigeManager =
+                                      GetIt.I<PrestigeManager>();
 
-                        goldManager.addGold(goldReward);
-                        progressionManager.addXp(xpReward);
-                      },
-                      onClose: () => Navigator.of(context).pop(),
-                    ),
+                                  goldManager.addGold(goldReward);
+                                  progressionManager.addXp(xpReward);
+                                  if (prestigeReward > 0) {
+                                    prestigeManager.addPrestigePoints(
+                                      prestigeReward,
+                                    );
+                                  }
+                                },
+                            onClose: () => Navigator.of(context).pop(),
+                          ),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'Weekly Challenges',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => WeeklyChallengeScreen(
-                      challengeManager: GetIt.I<WeeklyChallengeManager>(),
-                      title: 'Weekly Challenges',
-                      accentColor: Colors.amber,
-                      onClaimReward: (challengeId, goldReward, xpReward, prestigeReward) {
-                        // Give rewards
-                        final goldManager = GetIt.I<GoldManager>();
-                        final progressionManager = GetIt.I<ProgressionManager>();
-                        final prestigeManager = GetIt.I<PrestigeManager>();
-
-                        goldManager.addGold(goldReward);
-                        progressionManager.addXp(xpReward);
-                        if (prestigeReward > 0) {
-                          prestigeManager.addPrestigePoints(prestigeReward);
-                        }
-                      },
-                      onClose: () => Navigator.of(context).pop(),
-                    ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Battle Pass',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const BattlepassScreen(),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'Battle Pass',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const BattlepassScreen(),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Gacha',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const GachaScreen(),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'Gacha',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const GachaScreen(),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'STATISTICS',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StatisticsScreen(
+                            statisticsManager: GetIt.I<StatisticsManager>(),
+                            progressionManager: GetIt.I<ProgressionManager>(),
+                            prestigeManager: GetIt.I<PrestigeManager>(),
+                            achievementManager: GetIt.I<AchievementManager>(),
+                            title: 'Game Statistics',
+                            accentColor: AppColors.primary,
+                            onClose: () => Navigator.of(context).pop(),
+                          ),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'STATISTICS',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => StatisticsScreen(
-                      statisticsManager: GetIt.I<StatisticsManager>(),
-                      progressionManager: GetIt.I<ProgressionManager>(),
-                      prestigeManager: GetIt.I<PrestigeManager>(),
-                      questManager: GetIt.I<DailyQuestManager>(),
-                      achievementManager: GetIt.I<AchievementManager>(),
-                      title: 'Game Statistics',
-                      accentColor: AppColors.primary,
-                      onClose: () => Navigator.of(context).pop(),
-                    ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'FRIENDS',
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/friends');
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'FRIENDS',
-              onTap: () {
-                Navigator.of(context).pushNamed('/friends');
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'LEADERBOARD',
-              onTap: () {
-                Navigator.of(context).pushNamed('/leaderboard');
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: MGSpacing.sm),
-            _buildMenuButton(
-              context,
-              label: 'Settings',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SettingsScreen(
-                      settingsManager: GetIt.I<SettingsManager>(),
-                      title: 'Settings',
-                      accentColor: AppColors.primary,
-                      onClose: () => Navigator.of(context).pop(),
-                      version: '1.0.0',
-                    ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'LEADERBOARD',
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/leaderboard');
+                    },
+                    isSecondary: true,
                   ),
-                );
-              },
-              isSecondary: true,
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
+                  const SizedBox(height: MGSpacing.sm),
+                  _buildMenuButton(
+                    context,
+                    label: 'Settings',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SettingsScreen(
+                            settingsManager: GetIt.I<SettingsManager>(),
+                            title: 'Settings',
+                            accentColor: AppColors.primary,
+                            onClose: () => Navigator.of(context).pop(),
+                            version: '1.0.0',
+                          ),
+                        ),
+                      );
+                    },
+                    isSecondary: true,
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
         ),
@@ -334,7 +334,9 @@ class LobbyScreen extends StatelessWidget {
               Text(
                 label,
                 style: AppTextStyles.header2.copyWith(
-                  color: isSecondary ? Colors.white70 : MGColors.textHighEmphasis,
+                  color: isSecondary
+                      ? Colors.white70
+                      : MGColors.textHighEmphasis,
                   fontSize: 18,
                   shadows: [
                     Shadow(

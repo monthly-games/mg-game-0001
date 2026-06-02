@@ -6,7 +6,6 @@ import 'package:mg_common_game/core/ui/widgets/gacha/gacha.dart';
 import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
 import '../../features/gacha/gacha_adapter.dart';
 
-
 /// Gacha Screen -- powered by mg_common_game GachaPullAnimation widget
 class GachaScreen extends StatefulWidget {
   const GachaScreen({super.key});
@@ -72,18 +71,29 @@ class _GachaScreenState extends State<GachaScreen> {
               children: [
                 const Icon(Icons.auto_awesome, size: 48, color: Colors.white),
                 SizedBox(height: MGSpacing.sm),
-                const Text('Tower Summon',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                const Text(
+                  'Tower Summon',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
                 SizedBox(height: MGSpacing.xs),
-                const Text('Featured: Legendary Tower Archer',
-                    style: TextStyle(fontSize: 14, color: Colors.white70)),
+                const Text(
+                  'Featured: Legendary Tower Archer',
+                  style: TextStyle(fontSize: 14, color: Colors.white70),
+                ),
               ],
             ),
           ),
           SizedBox(height: MGSpacing.lg),
           // Pity
           Container(
-            padding: EdgeInsets.symmetric(horizontal: MGSpacing.md, vertical: MGSpacing.sm),
+            padding: EdgeInsets.symmetric(
+              horizontal: MGSpacing.md,
+              vertical: MGSpacing.sm,
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
@@ -91,9 +101,18 @@ class _GachaScreenState extends State<GachaScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Pity Counter', style: TextStyle(color: Colors.white70, fontSize: 14)),
-                Text('${_gacha.totalPulls % 90} / 90',
-                    style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Pity Counter',
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+                Text(
+                  '${_gacha.totalPulls % 90} / 90',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),
@@ -116,7 +135,10 @@ class _GachaScreenState extends State<GachaScreen> {
                   onPressed: () {
                     final r = _gacha.pullSingle();
                     if (r != null) {
-                      setState(() { _pullResults = [r]; _showAnimation = true; });
+                      setState(() {
+                        _pullResults = [r];
+                        _showAnimation = true;
+                      });
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -125,7 +147,9 @@ class _GachaScreenState extends State<GachaScreen> {
                     padding: EdgeInsets.symmetric(vertical: MGSpacing.md),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: MGColors.gem.withValues(alpha: 0.5)),
+                      side: BorderSide(
+                        color: MGColors.gem.withValues(alpha: 0.5),
+                      ),
                     ),
                   ),
                   child: const Text('Summon x1'),
@@ -136,13 +160,18 @@ class _GachaScreenState extends State<GachaScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     final r = _gacha.pullTen();
-                    setState(() { _pullResults = r; _showAnimation = true; });
+                    setState(() {
+                      _pullResults = r;
+                      _showAnimation = true;
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: MGColors.gem,
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: MGSpacing.md),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   child: const Text('Summon x10'),
                 ),
@@ -154,25 +183,54 @@ class _GachaScreenState extends State<GachaScreen> {
           if (_pullResults.isNotEmpty) ...[
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text('Last Results', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Last Results',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             SizedBox(height: MGSpacing.sm),
-            ..._pullResults.map((item) => Container(
-              margin: EdgeInsets.only(bottom: MGSpacing.xs),
-              padding: EdgeInsets.all(MGSpacing.sm),
-              decoration: BoxDecoration(
-                color: _rarityColor(item.rarity).withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: _rarityColor(item.rarity).withValues(alpha: 0.3)),
+            ..._pullResults.map(
+              (item) => Container(
+                margin: EdgeInsets.only(bottom: MGSpacing.xs),
+                padding: EdgeInsets.all(MGSpacing.sm),
+                decoration: BoxDecoration(
+                  color: _rarityColor(item.rarity).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: _rarityColor(item.rarity).withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: _rarityColor(item.rarity),
+                      size: 20,
+                    ),
+                    SizedBox(width: MGSpacing.sm),
+                    Text(
+                      item.nameKr,
+                      style: TextStyle(
+                        color: _rarityColor(item.rarity),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      item.rarity.name.toUpperCase(),
+                      style: TextStyle(
+                        color: _rarityColor(item.rarity),
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Row(children: [
-                Icon(Icons.star, color: _rarityColor(item.rarity), size: 20),
-                SizedBox(width: MGSpacing.sm),
-                Text(item.nameKr, style: TextStyle(color: _rarityColor(item.rarity), fontWeight: FontWeight.bold)),
-                const Spacer(),
-                Text(item.rarity.name.toUpperCase(), style: TextStyle(color: _rarityColor(item.rarity), fontSize: 12)),
-              ]),
-            )),
+            ),
           ],
         ],
       ),

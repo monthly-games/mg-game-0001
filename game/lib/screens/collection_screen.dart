@@ -79,7 +79,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
           'collection_id': collectionId,
           'item_id': itemId,
           'rarity': item.rarity.name,
-          'is_unlocked': _collectionManager.isItemUnlocked(collectionId, itemId),
+          'is_unlocked': _collectionManager.isItemUnlocked(
+            collectionId,
+            itemId,
+          ),
         },
       );
     }
@@ -87,7 +90,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
 
   // ── Firebase Event: Milestone reward claimed ─────────────
   Future<void> _onClaimMilestone(String collectionId, int milestone) async {
-    final reward = _collectionManager.claimMilestoneReward(collectionId, milestone);
+    final reward = _collectionManager.claimMilestoneReward(
+      collectionId,
+      milestone,
+    );
 
     if (reward != null) {
       await _analytics.logEvent(
@@ -224,17 +230,11 @@ class _CollectionScreenState extends State<CollectionScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.collections,
-            size: 64,
-            color: MGColors.textMediumEmphasis,
-          ),
+          Icon(Icons.collections, size: 64, color: MGColors.textMediumEmphasis),
           SizedBox(height: MGSpacing.md),
           Text(
             'No Collections Yet',
-            style: MGTextStyles.h3.copyWith(
-              color: MGColors.textHighEmphasis,
-            ),
+            style: MGTextStyles.h3.copyWith(color: MGColors.textHighEmphasis),
           ),
           SizedBox(height: MGSpacing.sm),
           Text(
@@ -269,10 +269,11 @@ class _CollectionScreenState extends State<CollectionScreen> {
     final unlockedCount = _collectionManager.getUnlockedCount(collection.id);
     final totalCount = _collectionManager.getTotalCount(collection.id);
     final isComplete = _collectionManager.isCollectionComplete(collection.id);
-    final availableMilestones =
-        _collectionManager.getAvailableMilestones(collection.id);
-    final completionRewardClaimed =
-        _collectionManager.isCompletionRewardClaimed(collection.id);
+    final availableMilestones = _collectionManager.getAvailableMilestones(
+      collection.id,
+    );
+    final completionRewardClaimed = _collectionManager
+        .isCompletionRewardClaimed(collection.id);
 
     return MGCard(
       child: Column(
@@ -367,8 +368,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
           runSpacing: MGSpacing.sm,
           children: milestones.map((milestone) {
             final isAvailable = availableMilestones.contains(milestone);
-            final isClaimed =
-                _collectionManager.isMilestoneRewardClaimed(collection.id, milestone);
+            final isClaimed = _collectionManager.isMilestoneRewardClaimed(
+              collection.id,
+              milestone,
+            );
             final reward = collection.milestoneRewards![milestone];
 
             return GestureDetector(
@@ -384,14 +387,14 @@ class _CollectionScreenState extends State<CollectionScreen> {
                   color: isClaimed
                       ? MGColors.success.withValues(alpha: 0.2)
                       : isAvailable
-                          ? MGColors.warning.withValues(alpha: 0.2)
-                          : MGColors.surfaceDark,
+                      ? MGColors.warning.withValues(alpha: 0.2)
+                      : MGColors.surfaceDark,
                   border: Border.all(
                     color: isClaimed
                         ? MGColors.success
                         : isAvailable
-                            ? MGColors.warning
-                            : MGColors.border,
+                        ? MGColors.warning
+                        : MGColors.border,
                     width: 1,
                   ),
                   borderRadius: BorderRadius.circular(6),
@@ -405,8 +408,8 @@ class _CollectionScreenState extends State<CollectionScreen> {
                         color: isClaimed
                             ? MGColors.success
                             : isAvailable
-                                ? MGColors.warning
-                                : MGColors.textMediumEmphasis,
+                            ? MGColors.warning
+                            : MGColors.textMediumEmphasis,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -431,16 +434,15 @@ class _CollectionScreenState extends State<CollectionScreen> {
   }
 
   // ── Completion reward section ────────────────────────────
-  Widget _buildCompletionReward(
-    Collection collection,
-    bool claimed,
-  ) {
+  Widget _buildCompletionReward(Collection collection, bool claimed) {
     final reward = collection.completionReward!;
 
     return Column(
       children: [
         MGButton(
-          label: claimed ? 'Completion Reward Claimed' : 'Claim Completion Reward',
+          label: claimed
+              ? 'Completion Reward Claimed'
+              : 'Claim Completion Reward',
           size: MGButtonSize.small,
           icon: claimed ? Icons.check : Icons.card_giftcard,
           backgroundColor: claimed ? MGColors.success : MGColors.primaryAction,
@@ -465,8 +467,10 @@ class _CollectionScreenState extends State<CollectionScreen> {
       itemCount: collection.items.length,
       itemBuilder: (context, index) {
         final item = collection.items[index];
-        final isUnlocked =
-            _collectionManager.isItemUnlocked(collection.id, item.id);
+        final isUnlocked = _collectionManager.isItemUnlocked(
+          collection.id,
+          item.id,
+        );
 
         return GestureDetector(
           onTap: () => _onItemViewed(collection.id, item.id),
@@ -480,7 +484,9 @@ class _CollectionScreenState extends State<CollectionScreen> {
   Widget _buildItemTile(CollectionItem item, bool isUnlocked) {
     return Container(
       decoration: BoxDecoration(
-        color: isUnlocked ? item.rarity.color.withValues(alpha: 0.2) : MGColors.surfaceDark,
+        color: isUnlocked
+            ? item.rarity.color.withValues(alpha: 0.2)
+            : MGColors.surfaceDark,
         border: Border.all(
           color: isUnlocked ? item.rarity.color : MGColors.border,
           width: 2,
@@ -522,7 +528,9 @@ class _CollectionScreenState extends State<CollectionScreen> {
   // ── Item placeholder ─────────────────────────────────────
   Widget _buildPlaceholder(CollectionItem item, bool isUnlocked) {
     return Container(
-      color: isUnlocked ? item.rarity.color.withValues(alpha: 0.1) : MGColors.surfaceDark,
+      color: isUnlocked
+          ? item.rarity.color.withValues(alpha: 0.1)
+          : MGColors.surfaceDark,
       child: Center(
         child: Icon(
           Icons.image,

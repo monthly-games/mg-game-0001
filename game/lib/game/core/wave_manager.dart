@@ -25,7 +25,7 @@ class WaveDefinition {
 
 class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
   final MapSystem mapSystem;
-  final StageInfo? stageInfo;
+  StageInfo? stageInfo;
 
   int _stage = 1;
   final List<WaveDefinition> _waves = [];
@@ -43,7 +43,8 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
     // Use stage info if available
     final int waveCount = stageInfo?.waves ?? 10;
     final double difficultyMult = stageInfo?.difficultyMultiplier ?? 1.0;
-    final List<MonsterType> allowedMonsters = stageInfo?.monsterTypes ?? [MonsterType.basic];
+    final List<MonsterType> allowedMonsters =
+        stageInfo?.monsterTypes ?? [MonsterType.basic];
     final bool hasBoss = stageInfo?.hasBoss ?? false;
 
     for (int wave = 1; wave <= waveCount; wave++) {
@@ -66,7 +67,9 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
           spawns.add(MonsterSpawn(MonsterType.basic, totalCount));
         } else {
           // Filter out boss type from normal spawns
-          final normalTypes = allowedMonsters.where((t) => t != MonsterType.boss).toList();
+          final normalTypes = allowedMonsters
+              .where((t) => t != MonsterType.boss)
+              .toList();
           if (normalTypes.isEmpty) {
             spawns.add(MonsterSpawn(MonsterType.basic, totalCount));
           } else {
@@ -105,6 +108,7 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
 
   void setStage(int stage) {
     _stage = stage;
+    stageInfo = StageData.getStage(stage);
     _generateWavesForStage(_stage);
     _currentWaveIndex = -1;
     _isWaveActive = false;
@@ -204,5 +208,41 @@ class WaveManager extends Component with HasGameReference<TowerDefenseGame> {
       (m) => m.removeFromParent(),
     );
   }
-}
 
+  /// Generate additional waves for endless mode
+  void generateEndlessWaves(int endlessCount, double difficultyScaling) {
+    final baseWaveCount = _waves.length;
+    final newWaveNumber = baseWaveCount + 1;
+
+    // Calculate difficulty for this endless wave
+    final difficultyMult = 1.0 + (endlessCount * difficultyScaling);
+    final int totalCount = (5 + (newWaveNumber * 2) * difficultyMult).round();
+    final double interval = max(
+      0.2,
+      1.5 - (newWaveNumber * 0.1) - (difficultyMult * 0.1),
+    );
+
+    final List<MonsterSpawn> spawns = [];
+
+    // Endless waves get progressively harder
+    if (endlessCount % 10 == 0) {
+      // Every 10th endless wave: Boss wave
+      spawns.add(const MonsterSpawn(MonsterType.boss, 1));
+      spawns.add(MonsterSpawn(MonsterType.basic, totalCount ~/ 2));
+      spawns.add(MonsterSpawn(MonsterType.tank, totalCount ~/ 4));
+    } else if (endlessCount % 5 == 0) {
+      // Every 5th endless wave: Tank wave
+      spawns.add(MonsterSpawn(MonsterType.tank, 3));
+      spawns.add(MonsterSpawn(MonsterType.basic, totalCount ~/ 2));
+    } else {
+      // Normal endless waves
+      spawns.add(MonsterSpawn(MonsterType.basic, totalCount ~/ 2));
+      spawns.add(MonsterSpawn(MonsterType.fast, totalCount ~/ 3));
+      if (endlessCount >= 3) {
+        spawns.add(MonsterSpawn(MonsterType.air, totalCount ~/ 4));
+      }
+    }
+
+    _waves.add(WaveDefinition(spawns: spawns, spawnInterval: interval));
+  }
+}

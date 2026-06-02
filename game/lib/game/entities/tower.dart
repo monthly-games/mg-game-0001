@@ -8,6 +8,7 @@ import 'package:tower_defense/game/entities/bullet.dart';
 import 'package:tower_defense/game/entities/monster.dart';
 import 'package:tower_defense/game/entities/tower_type.dart';
 import 'package:tower_defense/game/entities/monster_type.dart';
+import 'package:tower_defense/game/core/tower_synergy.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
@@ -18,6 +19,12 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
   double _cooldown = 0;
   int upgradeLevel = 0; // 0 = base, 1-2 = upgraded
   static const int maxUpgradeLevel = 2;
+
+  // Base stats stored for synergy calculations
+  late double _baseRange;
+  late double _baseDamage;
+  // Synergy bonuses
+  SynergyBonus? _synergyBonus;
 
   late final Sprite baseSprite;
   late final Sprite turretSprite;
@@ -33,7 +40,11 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
            (damage ?? TowerStats.get(towerType).damage) *
            _getDamageMultiplier(),
        attackSpeed = attackSpeed ?? TowerStats.get(towerType).attackSpeed,
-       super(position: position, size: Vector2.all(40), anchor: Anchor.center);
+       super(position: position, size: Vector2.all(40), anchor: Anchor.center) {
+    // Store base stats for synergy calculations
+    _baseRange = this.range;
+    _baseDamage = this.damage;
+  }
 
   static double _getDamageMultiplier() {
     if (!GetIt.I.isRegistered<UpgradeManager>()) return 1.0;
@@ -65,9 +76,38 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
     upgradeLevel++;
     // Increase stats by 25% per level
     final multiplier = 1.25;
-    damage *= multiplier;
-    range *= multiplier;
+    _baseDamage *= multiplier;
+    _baseRange *= multiplier;
+    _recalculateStats();
   }
+
+  /// Apply synergy bonus to this tower
+  void applySynergyBonus(SynergyBonus bonus) {
+    _synergyBonus = bonus;
+    _recalculateStats();
+  }
+
+  /// Clear synergy bonus from this tower
+  void clearSynergyBonus() {
+    _synergyBonus = null;
+    _recalculateStats();
+  }
+
+  /// Recalculate stats based on base stats, upgrades, and synergies
+  void _recalculateStats() {
+    // Start with base stats
+    damage = _baseDamage;
+    range = _baseRange;
+
+    // Apply synergy multipliers
+    if (_synergyBonus != null) {
+      damage *= _synergyBonus!.damageMultiplier;
+      range *= _synergyBonus!.rangeMultiplier;
+    }
+  }
+
+  /// Get current synergy bonus
+  SynergyBonus? get synergyBonus => _synergyBonus;
 
   @override
   Future<void> onLoad() async {
@@ -249,5 +289,4 @@ class Tower extends PositionComponent with HasGameReference<TowerDefenseGame> {
       ),
     );
   }
-
 }

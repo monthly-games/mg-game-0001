@@ -37,10 +37,7 @@ class TowerManageDialog extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.black.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: AppColors.primary,
-            width: 2,
-          ),
+          border: Border.all(color: AppColors.primary, width: 2),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -59,10 +56,7 @@ class TowerManageDialog extends StatelessWidget {
             if (tower.upgradeLevel > 0)
               Text(
                 '★' * tower.upgradeLevel,
-                style: const TextStyle(
-                  color: Colors.yellow,
-                  fontSize: 20,
-                ),
+                style: const TextStyle(color: Colors.yellow, fontSize: 20),
               ),
             const SizedBox(height: MGSpacing.md),
 
@@ -79,7 +73,10 @@ class TowerManageDialog extends StatelessWidget {
                   const SizedBox(height: MGSpacing.xs),
                   _buildStatRow('Range', tower.range.toInt().toString()),
                   const SizedBox(height: MGSpacing.xs),
-                  _buildStatRow('Speed', '${(1.0 / tower.attackSpeed).toStringAsFixed(1)}/s'),
+                  _buildStatRow(
+                    'Speed',
+                    '${(1.0 / tower.attackSpeed).toStringAsFixed(1)}/s',
+                  ),
                 ],
               ),
             ),
@@ -97,7 +94,9 @@ class TowerManageDialog extends StatelessWidget {
                     style: AppTextStyles.button,
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: canAffordUpgrade ? MGColors.success : MGColors.common,
+                    backgroundColor: canAffordUpgrade
+                        ? MGColors.success
+                        : MGColors.common,
                     foregroundColor: MGColors.textHighEmphasis,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     disabledBackgroundColor: Colors.grey.shade800,

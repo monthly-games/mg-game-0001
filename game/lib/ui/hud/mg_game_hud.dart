@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
 
-
 /// MG UI 기반 타워 디펜스 HUD
 /// mg_common_game의 공통 UI 컴포넌트 활용
 class MGGameHud extends StatelessWidget {
@@ -61,10 +60,7 @@ class MGGameHud extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildWaveInfo(),
-                _buildResourceBar(),
-              ],
+              children: [_buildWaveInfo(), _buildResourceBar()],
             ),
           ),
 
@@ -264,9 +260,7 @@ class MGGameHud extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black54,
         borderRadius: BorderRadius.circular(8),
-        border: isLow
-            ? Border.all(color: MGColors.error, width: 2)
-            : null,
+        border: isLow ? Border.all(color: MGColors.error, width: 2) : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -345,7 +339,9 @@ class MGGameHud extends StatelessWidget {
             MGSpacing.vXs,
             Text(
               '${gameSpeed.toStringAsFixed(0)}x',
-              style: MGTextStyles.caption.copyWith(color: MGColors.textHighEmphasis),
+              style: MGTextStyles.caption.copyWith(
+                color: MGColors.textHighEmphasis,
+              ),
             ),
           ],
         ),

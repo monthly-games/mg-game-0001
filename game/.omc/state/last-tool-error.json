@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"D:\\\\mg-games\\\\repos\\\\mg-game-0001\\\\game\\\\lib\\\\ui\\\\screens\\\\game_screen.dart\"}",
+  "error": "File does not exist. Note: your current working directory is D:\\mg-games\\repos\\mg-game-0001\\game.",
+  "timestamp": "2026-05-22T03:00:24.547Z",
+  "retry_count": 1
+}

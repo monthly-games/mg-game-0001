@@ -12,8 +12,10 @@ import 'package:mg_common_game/systems/progression/achievement_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
 import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
 import 'package:tower_defense/app_logger.dart';
+import 'package:tower_defense/game/core/challenge_mode.dart';
 import 'package:tower_defense/game/core/map_system.dart';
 import 'package:tower_defense/game/core/stage_data.dart';
+import 'package:tower_defense/game/core/tower_synergy.dart';
 import 'package:tower_defense/game/core/vfx_manager.dart';
 import 'package:tower_defense/game/core/wave_manager.dart';
 import 'package:tower_defense/game/entities/ghost_tower.dart';
@@ -21,16 +23,25 @@ import 'package:tower_defense/game/entities/tower.dart';
 import 'package:tower_defense/game/entities/tower_type.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
-class TowerDefenseGame extends CoreGame with HasCollisionDetection {
+class TowerDefenseGame extends CoreGame
+    with HasCollisionDetection {
+  @override
+  void onTapDown(TapDownInfo info) {}
   late final MapSystem mapSystem;
   late final WaveManager waveManager;
   late final VfxManager vfxManager;
+  late final TowerSynergyManager synergyManager;
   final AudioManager audio = GetIt.I<AudioManager>();
   final ProgressionManager progression = GetIt.I<ProgressionManager>();
   final AchievementManager achievements = GetIt.I<AchievementManager>();
 
   final int stageNumber;
   StageInfo? _stageInfo;
+
+  // Challenge Mode System
+  ChallengeMode _challengeMode = ChallengeMode.normal;
+  DateTime? _stageStartTime;
+  int _endlessWaveCount = 0;
 
   int lives = 20;
   int _totalGoldEarned = 0;
@@ -40,12 +51,27 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   Tower? _selectedTower;
   double _gameSpeed = 1.0;
 
-  TowerDefenseGame({this.stageNumber = 1}) {
+  TowerDefenseGame({
+    this.stageNumber = 1,
+    ChallengeMode challengeMode = ChallengeMode.normal,
+  }) {
+    _challengeMode = challengeMode;
     _stageInfo = StageData.getStage(stageNumber);
+    final challengeConfig = ChallengeModeConfig.get(_challengeMode);
+    lives = challengeConfig.startingLives;
     if (_stageInfo != null) {
       lives = _stageInfo!.startingLives;
     }
+    // Override with challenge mode lives if it's more restrictive
+    if (challengeConfig.startingLives < lives) {
+      lives = challengeConfig.startingLives;
+    }
   }
+
+  // Getters for challenge mode
+  ChallengeMode get challengeMode => _challengeMode;
+  ChallengeModeConfig get challengeConfig =>
+      ChallengeModeConfig.get(_challengeMode);
 
   // Getter for stage info
   StageInfo? get stageInfo => _stageInfo;
@@ -68,6 +94,14 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   bool get isWaveInProgress => waveManager.isWaveActive;
 
   void toggleSpeed() {
+    if (!challengeConfig.canChangeSpeed()) {
+      GetIt.I<ToastManager>().show(
+        'Speed locked in ${challengeConfig.displayName}!',
+        backgroundColor: MGColors.warning,
+      );
+      return;
+    }
+
     if (_gameSpeed == 1.0) {
       _gameSpeed = 2.0;
     } else if (_gameSpeed == 2.0) {
@@ -98,21 +132,32 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    logger.i('TowerDefenseGame Loaded!');
+    logger.i('TowerDefenseGame Loaded! - ${challengeConfig.displayName}');
 
-    // Initialize Economy with stage starting gold
+    // Initialize Economy with stage starting gold and challenge mode modifier
     final startGoldUpgrade = GetIt.I<UpgradeManager>().getUpgrade('start_gold');
     final bonusGold = startGoldUpgrade?.currentValue.toInt() ?? 0;
     final baseGold = _stageInfo?.startingGold ?? 100;
+    final challengeGold = challengeConfig.calculateStartingGold(baseGold);
 
     GetIt.I<GoldManager>().addGold(
-      baseGold + bonusGold,
-    ); // Start with stage gold + Upgrade bonus
+      challengeGold + bonusGold,
+    ); // Start with challenge gold + Upgrade bonus
 
+    // Show challenge mode info
+    String modeInfo = challengeConfig.displayName;
+    if (_challengeMode != ChallengeMode.normal) {
+      modeInfo += ': ${challengeConfig.description}';
+    }
     GetIt.I<ToastManager>().show(
-      'Stage $stageNumber: ${_stageInfo?.name ?? "Unknown"}',
+      'Stage $stageNumber: ${_stageInfo?.name ?? "Unknown"}\n$modeInfo',
       backgroundColor: AppColors.primary,
     );
+
+    // Set locked game speed if applicable
+    if (challengeConfig.lockGameSpeed) {
+      _gameSpeed = challengeConfig.lockedGameSpeed;
+    }
 
     mapSystem = MapSystem();
     add(mapSystem);
@@ -122,6 +167,10 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     // Initialize VfxManager
     vfxManager = VfxManager();
     add(vfxManager);
+
+    // Initialize TowerSynergyManager
+    synergyManager = TowerSynergyManager();
+    add(synergyManager);
 
     // Wave Manager with stage info
     waveManager = WaveManager(mapSystem: mapSystem, stageInfo: _stageInfo);
@@ -161,7 +210,7 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
 
   @override
   void onTapUp(TapUpInfo info) {
-    final pos = info.eventPosition.widget;
+    final pos = info.eventPosition.global;
     final gx = (pos.x / MapSystem.tileSize).floor();
     final gy = (pos.y / MapSystem.tileSize).floor();
 
@@ -235,12 +284,14 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     if (GetIt.I<GoldManager>().trySpendGold(towerCost)) {
       // Build
       final towerPosition = mapSystem.getPosition(gx, gy);
-      add(
-        Tower(
-          position: towerPosition,
-          towerType: _selectedTowerType,
-        ),
+      final tower = Tower(
+        position: towerPosition,
+        towerType: _selectedTowerType,
       );
+      add(tower);
+
+      // Register with synergy manager
+      synergyManager.registerTower(tower);
 
       // VFX: Tower build effect
       vfxManager.showTowerBuild(towerPosition);
@@ -262,6 +313,40 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   void selectTower(TowerType type) {
     _selectedTowerType = type;
     logger.d('Tower type selected: $type');
+  }
+
+  /// Test helper: Simulate a tap at grid coordinates
+  void tapAtGrid(int gx, int gy) {
+    if (!_buildMode) {
+      final tappedTower = _getTowerAt(gx, gy);
+      if (tappedTower != null) {
+        _selectedTower = tappedTower;
+        overlays.add('TowerManage');
+      }
+      return;
+    }
+
+    final targetPos = mapSystem.getPosition(gx, gy);
+    final buildable = _isTileBuildable(gx, gy);
+    final hasTower = _hasTowerAt(gx, gy);
+    final canBuild = buildable && !hasTower;
+
+    final existingGhost = children.whereType<GhostTower>().firstOrNull;
+
+    if (existingGhost != null && existingGhost.position == targetPos) {
+      if (canBuild) {
+        _tryBuildTower(gx, gy);
+        existingGhost.removeFromParent();
+        _buildMode = false;
+      }
+    } else {
+      if (existingGhost != null) {
+        existingGhost.position = targetPos;
+        existingGhost.isValid = canBuild;
+      } else {
+        add(GhostTower(position: targetPos)..isValid = canBuild);
+      }
+    }
   }
 
   void decreaseLives(int amount) {
@@ -300,10 +385,16 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     pauseEngine();
 
     if (isVictory) {
-      GetIt.I<ToastManager>().show('VICTORY!', backgroundColor: MGColors.success);
+      GetIt.I<ToastManager>().show(
+        'VICTORY!',
+        backgroundColor: MGColors.success,
+      );
       audio.playSfx('victory.wav');
     } else {
-      GetIt.I<ToastManager>().show('GAME OVER', backgroundColor: MGColors.error);
+      GetIt.I<ToastManager>().show(
+        'GAME OVER',
+        backgroundColor: MGColors.error,
+      );
       audio.playSfx('game_over.wav');
     }
 
@@ -317,6 +408,15 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     int stageReward = 200 + (waveManager.currentStage * 50);
     GetIt.I<GoldManager>().addGold(stageReward);
 
+    // Track speed run time if in speed mode
+    if (_challengeMode == ChallengeMode.speed && _stageStartTime != null) {
+      final clearTime = DateTime.now().difference(_stageStartTime!);
+      GetIt.I<ToastManager>().show(
+        'Speed Run Time: ${clearTime.inMinutes}:${(clearTime.inSeconds % 60).toString().padLeft(2, '0')}',
+        backgroundColor: Colors.cyan,
+      );
+    }
+
     // Show wave complete effect
     vfxManager.showWaveComplete(Vector2(size.x / 2, size.y / 2));
 
@@ -326,17 +426,31 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     );
     audio.playSfx('victory.wav');
 
-    // Progress to next stage automatically
-    int nextStage = waveManager.currentStage + 1;
-    if (nextStage > 30) {
-      // Real Victory after 30 stages
-      _triggerGameOver(true);
+    // Handle endless mode or normal progression
+    if (_challengeMode == ChallengeMode.endless) {
+      // In endless mode, generate more waves indefinitely
+      _endlessWaveCount++;
+      waveManager.generateEndlessWaves(
+        _endlessWaveCount,
+        challengeConfig.waveDifficultyScaling,
+      );
+      GetIt.I<ToastManager>().show(
+        'Endless Wave $_endlessWaveCount approaching...',
+        backgroundColor: Colors.orange,
+      );
     } else {
-      waveManager.setStage(nextStage);
-      // Optional: Pause here or let user start next wave?
-      // Design Doc 2.2 says: [Stage Select] -> [Wave 1~10] -> [Result] -> [Reward] -> [Next Stage Unlock]
-      // Simulating "Next Stage Unlock" by just incrementing for now, as we lack Stage Select Screen.
-      // We will stop the auto-start, so user has to press "Start Wave 1" again.
+      // Normal stage progression
+      int nextStage = waveManager.currentStage + 1;
+      if (nextStage > 30) {
+        // Real Victory after 30 stages
+        _triggerGameOver(true);
+      } else {
+        waveManager.setStage(nextStage);
+        // Reset stage timer for next stage in speed mode
+        if (_challengeMode == ChallengeMode.speed) {
+          _stageStartTime = DateTime.now();
+        }
+      }
     }
   }
 
@@ -432,6 +546,9 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
   void sellTower() {
     if (_selectedTower == null) return;
 
+    // Unregister from synergy manager
+    synergyManager.unregisterTower(_selectedTower!);
+
     final sellValue = _selectedTower!.getSellValue();
     GetIt.I<GoldManager>().addGold(sellValue);
     _selectedTower!.removeFromParent();
@@ -455,6 +572,11 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     GetIt.I<ToastManager>().show('Wave ${waveManager.currentWave} Started!');
     audio.playSfx('wave_start.wav');
 
+    // Track timing for speed runs
+    if (_challengeMode == ChallengeMode.speed) {
+      _stageStartTime ??= DateTime.now();
+    }
+
     // XP for starting a wave
     progression.addXp(10 * waveManager.currentWave);
 
@@ -470,4 +592,3 @@ class TowerDefenseGame extends CoreGame with HasCollisionDetection {
     }
   }
 }
-

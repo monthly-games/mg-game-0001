@@ -22,7 +22,8 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
   @override
   Widget build(BuildContext context) {
     final progressionManager = GetIt.I<ProgressionManager>();
-    final clearedStages = progressionManager.currentLevel; // Use level as cleared stages
+    final clearedStages =
+        progressionManager.currentLevel; // Use level as cleared stages
 
     return GameScaffold(
       backgroundImage: 'assets/images/bg_lobby.png',
@@ -36,7 +37,11 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: MGColors.textHighEmphasis, size: 32),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: MGColors.textHighEmphasis,
+                      size: 32,
+                    ),
                   ),
                   const SizedBox(width: MGSpacing.md),
                   Text(
@@ -62,7 +67,9 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
 
                 return Expanded(
                   child: GestureDetector(
-                    onTap: isUnlocked ? () => setState(() => _selectedChapter = index) : null,
+                    onTap: isUnlocked
+                        ? () => setState(() => _selectedChapter = index)
+                        : null,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -70,23 +77,31 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
                         color: isSelected
                             ? AppColors.primary
                             : isUnlocked
-                                ? Colors.black54
-                                : Colors.black26,
+                            ? Colors.black54
+                            : Colors.black26,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: isSelected ? AppColors.primary : Colors.white24,
+                          color: isSelected
+                              ? AppColors.primary
+                              : Colors.white24,
                           width: 2,
                         ),
                       ),
                       child: Column(
                         children: [
                           if (!isUnlocked)
-                            const Icon(Icons.lock, color: Colors.white38, size: 20)
+                            const Icon(
+                              Icons.lock,
+                              color: Colors.white38,
+                              size: 20,
+                            )
                           else
                             Text(
                               chapter.name,
                               style: TextStyle(
-                                color: isUnlocked ? MGColors.textHighEmphasis : Colors.white38,
+                                color: isUnlocked
+                                    ? MGColors.textHighEmphasis
+                                    : Colors.white38,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -103,9 +118,7 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
           const SizedBox(height: MGSpacing.md),
 
           // Stage Grid
-          Expanded(
-            child: _buildStageGrid(clearedStages),
-          ),
+          Expanded(child: _buildStageGrid(clearedStages)),
         ],
       ),
     );
@@ -156,7 +169,8 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
           ? () {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => GamePage(stageNumber: stage.stageNumber),
+                  builder: (context) =>
+                      GamePage(stageNumber: stage.stageNumber),
                 ),
               );
             }
@@ -164,7 +178,9 @@ class _StageSelectScreenState extends State<StageSelectScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: isUnlocked
-              ? (isCleared ? MGColors.success.withValues(alpha: 0.3) : Colors.black54)
+              ? (isCleared
+                    ? MGColors.success.withValues(alpha: 0.3)
+                    : Colors.black54)
               : Colors.black26,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(

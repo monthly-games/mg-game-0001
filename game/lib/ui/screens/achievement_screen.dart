@@ -96,8 +96,7 @@ class _AchievementScreenState extends State<AchievementScreen>
 
   void _onTabChanged() {
     if (!_tabController.indexIsChanging) return;
-    final category =
-        AchievementCategory.values[_tabController.index];
+    final category = AchievementCategory.values[_tabController.index];
     FirebaseAnalytics.instance.logEvent(
       name: 'achievement_tab_changed',
       parameters: {'category': category.name},
@@ -141,9 +140,7 @@ class _AchievementScreenState extends State<AchievementScreen>
       appBar: AppBar(
         title: Text(
           'Achievements',
-          style: MGTextStyles.h2.copyWith(
-            color: MGColors.textHighEmphasis,
-          ),
+          style: MGTextStyles.h2.copyWith(color: MGColors.textHighEmphasis),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -161,8 +158,7 @@ class _AchievementScreenState extends State<AchievementScreen>
                 ),
                 decoration: BoxDecoration(
                   color: MGColors.gold.withValues(alpha: 0.2),
-                  borderRadius:
-                      BorderRadius.circular(MGSpacing.md),
+                  borderRadius: BorderRadius.circular(MGSpacing.md),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -195,8 +191,7 @@ class _AchievementScreenState extends State<AchievementScreen>
           unselectedLabelColor: MGColors.textMediumEmphasis,
           tabs: AchievementCategory.values.map((cat) {
             final list = _achievementsFor(cat);
-            final unlocked =
-                list.where((a) => a.unlocked).length;
+            final unlocked = list.where((a) => a.unlocked).length;
             return Tab(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -219,9 +214,7 @@ class _AchievementScreenState extends State<AchievementScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: AchievementCategory.values
-            .map(_buildCategoryTab)
-            .toList(),
+        children: AchievementCategory.values.map(_buildCategoryTab).toList(),
       ),
     );
   }
@@ -233,10 +226,8 @@ class _AchievementScreenState extends State<AchievementScreen>
       return _buildEmptyCategory(category);
     }
 
-    final unlockedCount =
-        achievements.where((a) => a.unlocked).length;
-    final pct =
-        (unlockedCount / achievements.length * 100).round();
+    final unlockedCount = achievements.where((a) => a.unlocked).length;
+    final pct = (unlockedCount / achievements.length * 100).round();
 
     return Padding(
       padding: MGSpacing.horizontal(MGSpacing.md),
@@ -256,13 +247,9 @@ class _AchievementScreenState extends State<AchievementScreen>
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(
-                    bottom: index < achievements.length - 1
-                        ? MGSpacing.xs
-                        : 0,
+                    bottom: index < achievements.length - 1 ? MGSpacing.xs : 0,
                   ),
-                  child: _buildAchievementTile(
-                    achievements[index],
-                  ),
+                  child: _buildAchievementTile(achievements[index]),
                 );
               },
             ),
@@ -285,9 +272,7 @@ class _AchievementScreenState extends State<AchievementScreen>
           MGSpacing.vMd,
           Text(
             'No ${category.label} achievements yet',
-            style: MGTextStyles.body.copyWith(
-              color: MGColors.textDisabled,
-            ),
+            style: MGTextStyles.body.copyWith(color: MGColors.textDisabled),
           ),
         ],
       ),
@@ -328,9 +313,7 @@ class _AchievementScreenState extends State<AchievementScreen>
                 ),
                 MGSpacing.vXxs,
                 MGLinearProgress(
-                  value: totalCount > 0
-                      ? unlockedCount / totalCount
-                      : 0,
+                  value: totalCount > 0 ? unlockedCount / totalCount : 0,
                   valueColor: MGColors.gold,
                   height: 4,
                   borderRadius: 2,
@@ -339,12 +322,7 @@ class _AchievementScreenState extends State<AchievementScreen>
             ),
           ),
           MGSpacing.hSm,
-          Text(
-            '$pct%',
-            style: MGTextStyles.hud.copyWith(
-              color: MGColors.gold,
-            ),
-          ),
+          Text('$pct%', style: MGTextStyles.hud.copyWith(color: MGColors.gold)),
         ],
       ),
     );
@@ -355,9 +333,7 @@ class _AchievementScreenState extends State<AchievementScreen>
     final points = _getPoints(achievement);
 
     return MGCard(
-      backgroundColor: isUnlocked
-          ? MGColors.cardDark
-          : MGColors.surfaceDark,
+      backgroundColor: isUnlocked ? MGColors.cardDark : MGColors.surfaceDark,
       borderColor: isUnlocked
           ? MGColors.success.withValues(alpha: 0.4)
           : MGColors.border,
@@ -371,16 +347,11 @@ class _AchievementScreenState extends State<AchievementScreen>
               color: isUnlocked
                   ? MGColors.gold.withValues(alpha: 0.2)
                   : MGColors.common.withValues(alpha: 0.1),
-              borderRadius:
-                  BorderRadius.circular(MGSpacing.sm),
+              borderRadius: BorderRadius.circular(MGSpacing.sm),
             ),
             child: Icon(
-              isUnlocked
-                  ? Icons.emoji_events_rounded
-                  : Icons.lock_rounded,
-              color: isUnlocked
-                  ? MGColors.gold
-                  : MGColors.common,
+              isUnlocked ? Icons.emoji_events_rounded : Icons.lock_rounded,
+              color: isUnlocked ? MGColors.gold : MGColors.common,
               size: MGIcons.navigationSize,
             ),
           ),
@@ -420,17 +391,13 @@ class _AchievementScreenState extends State<AchievementScreen>
                 decoration: BoxDecoration(
                   color: isUnlocked
                       ? MGColors.gold.withValues(alpha: 0.2)
-                      : MGColors.common
-                          .withValues(alpha: 0.1),
-                  borderRadius:
-                      BorderRadius.circular(MGSpacing.xxs),
+                      : MGColors.common.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(MGSpacing.xxs),
                 ),
                 child: Text(
                   '$points pts',
                   style: MGTextStyles.caption.copyWith(
-                    color: isUnlocked
-                        ? MGColors.gold
-                        : MGColors.textDisabled,
+                    color: isUnlocked ? MGColors.gold : MGColors.textDisabled,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

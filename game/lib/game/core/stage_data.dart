@@ -121,7 +121,11 @@ class StageData {
           stageNumber: 6,
           name: 'Canyon Entry',
           waves: 8,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast],
           startingGold: 250,
           difficultyMultiplier: 1.0,
@@ -130,7 +134,11 @@ class StageData {
           stageNumber: 7,
           name: 'Narrow Path',
           waves: 9,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 275,
           difficultyMultiplier: 1.1,
@@ -139,7 +147,11 @@ class StageData {
           stageNumber: 8,
           name: 'Tank Rush',
           waves: 9,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.tank],
           startingGold: 300,
           difficultyMultiplier: 1.2,
@@ -148,7 +160,11 @@ class StageData {
           stageNumber: 9,
           name: 'Mixed Forces',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 300,
           difficultyMultiplier: 1.3,
@@ -157,7 +173,11 @@ class StageData {
           stageNumber: 10,
           name: 'Canyon Boss',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 350,
           difficultyMultiplier: 1.4,
@@ -176,7 +196,12 @@ class StageData {
           stageNumber: 11,
           name: 'Frozen Gate',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash, TowerType.slow],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+            TowerType.slow,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 350,
           difficultyMultiplier: 1.5,
@@ -185,7 +210,12 @@ class StageData {
           stageNumber: 12,
           name: 'Ice Bridge',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash, TowerType.slow],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+            TowerType.slow,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 375,
           difficultyMultiplier: 1.6,
@@ -194,7 +224,12 @@ class StageData {
           stageNumber: 13,
           name: 'Blizzard',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash, TowerType.slow],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+            TowerType.slow,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 400,
           difficultyMultiplier: 1.7,
@@ -203,7 +238,12 @@ class StageData {
           stageNumber: 14,
           name: 'Avalanche',
           waves: 10,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash, TowerType.slow],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+            TowerType.slow,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 400,
           difficultyMultiplier: 1.8,
@@ -212,7 +252,12 @@ class StageData {
           stageNumber: 15,
           name: 'Frost Giant',
           waves: 12,
-          availableTowers: [TowerType.basic, TowerType.sniper, TowerType.splash, TowerType.slow],
+          availableTowers: [
+            TowerType.basic,
+            TowerType.sniper,
+            TowerType.splash,
+            TowerType.slow,
+          ],
           monsterTypes: [MonsterType.basic, MonsterType.fast, MonsterType.tank],
           startingGold: 450,
           difficultyMultiplier: 1.9,
@@ -409,5 +454,6 @@ class StageData {
   }
 
   /// Get total stage count
-  static int get totalStages => chapters.fold(0, (sum, c) => sum + c.stages.length);
+  static int get totalStages =>
+      chapters.fold(0, (sum, c) => sum + c.stages.length);
 }

@@ -1,0 +1,4 @@
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"superpowers:systematic-debugging"}
+{"t":0,"agent":"ae2ddff","agent_type":"unknown","event":"agent_stop","success":true}
+{"t":0,"agent":"a7f9293","agent_type":"unknown","event":"agent_stop","success":true}
+{"t":0,"agent":"a7560f0","agent_type":"unknown","event":"agent_stop","success":true}

@@ -29,11 +29,11 @@ class Monster extends PositionComponent
     double? speed,
     double? maxHp,
     int? goldReward,
-  })  : speed = speed ?? MonsterStats.get(monsterType).speed,
-        maxHp = maxHp ?? MonsterStats.get(monsterType).maxHp,
-        goldReward = goldReward ?? MonsterStats.get(monsterType).goldReward,
-        hp = maxHp ?? MonsterStats.get(monsterType).maxHp,
-        super(size: Vector2.all(32), anchor: Anchor.center) {
+  }) : speed = speed ?? MonsterStats.get(monsterType).speed,
+       maxHp = maxHp ?? MonsterStats.get(monsterType).maxHp,
+       goldReward = goldReward ?? MonsterStats.get(monsterType).goldReward,
+       hp = maxHp ?? MonsterStats.get(monsterType).maxHp,
+       super(size: Vector2.all(32), anchor: Anchor.center) {
     if (path.isNotEmpty) {
       position = path[0];
     }
@@ -65,10 +65,11 @@ class Monster extends PositionComponent
 
     // Body Sprite (tint blue if slowed)
     if (_slowDuration > 0) {
-      final paint = Paint()..colorFilter = const ColorFilter.mode(
-        Colors.lightBlue,
-        BlendMode.modulate,
-      );
+      final paint = Paint()
+        ..colorFilter = const ColorFilter.mode(
+          Colors.lightBlue,
+          BlendMode.modulate,
+        );
       canvas.saveLayer(Rect.fromLTWH(0, 0, size.x, size.y), paint);
       monsterSprite.render(canvas, position: Vector2.zero(), size: size);
       canvas.restore();
@@ -171,4 +172,3 @@ class Monster extends PositionComponent
     }
   }
 }
-

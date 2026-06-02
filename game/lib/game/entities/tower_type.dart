@@ -44,7 +44,7 @@ class TowerStats {
       range: 130.0,
       damage: 15.0,
       attackSpeed: 1.2,
-      spriteName: 'tower_frost.png',
+      spriteName: 'tower_frost_new.png',
       description: 'Slows enemies by 50% for 2 seconds',
       unlockStage: 10, // Stage 11-15 -> unlock condition Clear Stage 10
     ),
@@ -64,7 +64,7 @@ class TowerStats {
       range: 250.0,
       damage: 60.0,
       attackSpeed: 2.5,
-      spriteName: 'tower_sniper.png',
+      spriteName: 'tower_sniper_new.png',
       description: 'Long range with high damage but slow attack',
       unlockStage:
           1, // Default? Design doc didn't specify Sniper explicitly, assumed basic set
@@ -75,7 +75,7 @@ class TowerStats {
       range: 180.0,
       damage: 35.0,
       attackSpeed: 0.8,
-      spriteName: 'tower_air.png',
+      spriteName: 'tower_turret.png',
       description: 'High damage against flying enemies',
       unlockStage: 15, // Stage 16-20 -> Clear Stage 15
     ),

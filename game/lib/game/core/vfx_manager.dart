@@ -1,6 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/engine/effects/flame_effects.dart';
+import 'package:tower_defense/game/core/tower_synergy.dart';
 
 /// VFX Manager for tower defense specific visual effects
 class VfxManager extends Component with HasGameReference {
@@ -8,12 +11,7 @@ class VfxManager extends Component with HasGameReference {
 
   /// Show tower attack effect - muzzle flash particle
   void showTowerAttack(Vector2 position, Color color) {
-    game.add(
-      FlameParticleEffect.hit(
-        position: position.clone(),
-        color: color,
-      ),
-    );
+    game.add(FlameParticleEffect.hit(position: position.clone(), color: color));
   }
 
   /// Show monster death effect - explosion + coins
@@ -83,10 +81,7 @@ class VfxManager extends Component with HasGameReference {
 
     // Screen shake effect
     (game.camera.viewport as Component).add(
-      FlameScreenShake(
-        intensity: 8.0,
-        duration: 0.8,
-      ),
+      FlameScreenShake(intensity: 8.0, duration: 0.8),
     );
   }
 
@@ -129,5 +124,32 @@ class VfxManager extends Component with HasGameReference {
         color: Colors.lightBlue,
       ),
     );
+  }
+
+  /// Show synergy activation effect
+  void showSynergyActivated(Vector2 position, SynergyBonus bonus) {
+    final color = bonus.getBonusColor();
+
+    // Central sparkle
+    game.add(
+      FlameParticleEffect.sparkle(position: position.clone(), color: color),
+    );
+
+    // Connecting lines to nearby towers could be added here
+    // For now, use multiple particles to indicate the connection
+    for (int i = 0; i < bonus.towerCount; i++) {
+      final angle = (i * 360 / bonus.towerCount) * 3.14159 / 180;
+      final offset = Vector2(30 * math.cos(angle), 30 * math.sin(angle));
+
+      Future.delayed(Duration(milliseconds: i * 50), () {
+        if (!isMounted) return;
+        game.add(
+          FlameParticleEffect.sparkle(
+            position: position.clone() + offset,
+            color: color,
+          ),
+        );
+      });
+    }
   }
 }

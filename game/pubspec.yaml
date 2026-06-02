@@ -35,7 +35,7 @@ dependencies:
   flame: ^1.14.0
   flame_spine: ^0.3.0+1
   mg_common_game:
-    path: ../libs/mg_common_game
+    path: ../../mg-common-game
 
   cupertino_icons: ^1.0.8
   firebase_core: ^4.6.0

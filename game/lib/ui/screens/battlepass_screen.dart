@@ -6,7 +6,6 @@ import 'package:mg_common_game/core/ui/widgets/battlepass/battlepass.dart';
 import 'package:mg_common_game/systems/battlepass/battlepass_config.dart';
 import '../../features/battlepass/battlepass_adapter.dart';
 
-
 /// BattlePass Screen -- powered by mg_common_game BattlePass widgets
 class BattlepassScreen extends StatefulWidget {
   const BattlepassScreen({super.key});
@@ -64,14 +63,16 @@ class _BattlepassScreenState extends State<BattlepassScreen>
                 expToNextLevel: _bp.expToNextLevel,
                 remainingDays: _bp.remainingDays,
                 isPremium: _bp.isPremium,
-                onPurchasePremium: _bp.isPremium ? null : () {
-                  _bp.purchasePremium();
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Premium activated!')),
-                    );
-                  }
-                },
+                onPurchasePremium: _bp.isPremium
+                    ? null
+                    : () {
+                        _bp.purchasePremium();
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Premium activated!')),
+                          );
+                        }
+                      },
               ),
               // Tab content
               Expanded(

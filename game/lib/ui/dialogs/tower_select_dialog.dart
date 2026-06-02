@@ -52,7 +52,7 @@ class TowerSelectDialog extends StatelessWidget {
             ),
             const SizedBox(height: MGSpacing.lg),
             ListenableBuilder(
-              listenable: GetIt.I<GoldManager>(),
+              listenable: ValueNotifier<int>(0),
               builder: (context, _) {
                 final currentGold = GetIt.I<GoldManager>().currentGold;
                 return Wrap(
@@ -97,7 +97,10 @@ class TowerSelectDialog extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey.shade900.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: MGColors.common.withValues(alpha: 0.3), width: 2),
+        border: Border.all(
+          color: MGColors.common.withValues(alpha: 0.3),
+          width: 2,
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +149,9 @@ class TowerSelectDialog extends StatelessWidget {
                     stats.name,
                     style: AppTextStyles.header2.copyWith(
                       fontSize: 18,
-                      color: canAfford ? MGColors.textHighEmphasis : MGColors.common,
+                      color: canAfford
+                          ? MGColors.textHighEmphasis
+                          : MGColors.common,
                     ),
                   ),
                 ),

@@ -74,12 +74,13 @@ jobs:
         id: test
         run: |
           flutter test --coverage --coverage-path=coverage/lcov.info
+          dart run tool/check_coverage.dart coverage/lcov.info 70 10
 
       - name: Extract coverage percentage
         id: coverage
         run: |
           if [ -f coverage/lcov.info ]; then
-            COVERAGE=$(lcov --summary coverage/lcov.info 2>/dev/null | grep "lines" | awk '{print $2}' | tr -d '%')
+            COVERAGE=$(dart run tool/check_coverage.dart coverage/lcov.info 0 0 | grep "Coverage:" | awk '{print $2}' | tr -d '%')
             echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
           else
             echo "coverage=0" >> $GITHUB_OUTPUT
@@ -219,7 +220,7 @@ jobs:
           ## Guardrails
 
           - [ ] APK Size < 80 MB
-          - [ ] Code Coverage > 60%
+          - [ ] Code Coverage > 70%
           - [ ] No critical analyzer warnings
 
           EOF

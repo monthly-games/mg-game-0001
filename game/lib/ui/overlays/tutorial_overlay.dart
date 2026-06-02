@@ -6,10 +6,7 @@ import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 class GameTutorialOverlay extends StatefulWidget {
   final VoidCallback onComplete;
 
-  const GameTutorialOverlay({
-    super.key,
-    required this.onComplete,
-  });
+  const GameTutorialOverlay({super.key, required this.onComplete});
 
   @override
   State<GameTutorialOverlay> createState() => _GameTutorialOverlayState();
@@ -40,25 +37,29 @@ class _GameTutorialOverlayState extends State<GameTutorialOverlay>
     ),
     GameTutorialStep(
       title: 'Build Towers',
-      description: 'Tap the BUILD button, select a tower type, then place it on the map',
+      description:
+          'Tap the BUILD button, select a tower type, then place it on the map',
       icon: Icons.add_business,
       iconPosition: Alignment.bottomCenter,
     ),
     GameTutorialStep(
       title: 'Upgrade Towers',
-      description: 'Tap a placed tower to upgrade it for more damage and range, or sell it for gold',
+      description:
+          'Tap a placed tower to upgrade it for more damage and range, or sell it for gold',
       icon: Icons.upgrade,
       iconPosition: Alignment.center,
     ),
     GameTutorialStep(
       title: 'Manage Your Economy',
-      description: 'Earn gold by defeating monsters. Use it wisely to upgrade towers!',
+      description:
+          'Earn gold by defeating monsters. Use it wisely to upgrade towers!',
       icon: Icons.monetization_on,
       iconPosition: Alignment.topRight,
     ),
     GameTutorialStep(
       title: 'Start the Wave',
-      description: 'When ready, tap NEXT WAVE to send monsters. Don\'t let them reach the end!',
+      description:
+          'When ready, tap NEXT WAVE to send monsters. Don\'t let them reach the end!',
       icon: Icons.play_arrow,
       iconPosition: Alignment.centerRight,
     ),
@@ -199,10 +200,7 @@ class _GameTutorialOverlayState extends State<GameTutorialOverlay>
                         onPressed: _completeTutorial,
                         child: const Text(
                           'Skip Tutorial',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white54,
-                          ),
+                          style: TextStyle(fontSize: 16, color: Colors.white54),
                         ),
                       ),
                   ],

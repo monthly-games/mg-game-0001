@@ -28,9 +28,7 @@ class TowerGachaAdapter extends ChangeNotifier {
       hardPity: 80,
       softPityBonus: 6.0,
     ),
-    multiPullGuarantee: const MultiPullGuarantee(
-      minRarity: GachaRarity.rare,
-    ),
+    multiPullGuarantee: const MultiPullGuarantee(minRarity: GachaRarity.rare),
   );
 
   static const String _poolId = 'tower_pool';
@@ -53,30 +51,110 @@ class TowerGachaAdapter extends ChangeNotifier {
   List<GachaItem> _generateItems() {
     return [
       // UR (0.6%)
-      GachaItem(id: 'ur_tower_001', nameKr: '전설의 Tower', rarity: GachaRarity.ultraRare),
-      GachaItem(id: 'ur_tower_002', nameKr: '신화의 Tower', rarity: GachaRarity.ultraRare),
+      GachaItem(
+        id: 'ur_tower_001',
+        nameKr: '전설의 Tower',
+        rarity: GachaRarity.ultraRare,
+      ),
+      GachaItem(
+        id: 'ur_tower_002',
+        nameKr: '신화의 Tower',
+        rarity: GachaRarity.ultraRare,
+      ),
       // SSR (2.4%)
-      GachaItem(id: 'ssr_tower_001', nameKr: '영웅의 Tower', rarity: GachaRarity.superRare),
-      GachaItem(id: 'ssr_tower_002', nameKr: '고대의 Tower', rarity: GachaRarity.superRare),
-      GachaItem(id: 'ssr_tower_003', nameKr: '황금의 Tower', rarity: GachaRarity.superRare),
+      GachaItem(
+        id: 'ssr_tower_001',
+        nameKr: '영웅의 Tower',
+        rarity: GachaRarity.superRare,
+      ),
+      GachaItem(
+        id: 'ssr_tower_002',
+        nameKr: '고대의 Tower',
+        rarity: GachaRarity.superRare,
+      ),
+      GachaItem(
+        id: 'ssr_tower_003',
+        nameKr: '황금의 Tower',
+        rarity: GachaRarity.superRare,
+      ),
       // SR (12%)
-      GachaItem(id: 'sr_tower_001', nameKr: '희귀한 Tower A', rarity: GachaRarity.superRare),
-      GachaItem(id: 'sr_tower_002', nameKr: '희귀한 Tower B', rarity: GachaRarity.superRare),
-      GachaItem(id: 'sr_tower_003', nameKr: '희귀한 Tower C', rarity: GachaRarity.superRare),
-      GachaItem(id: 'sr_tower_004', nameKr: '희귀한 Tower D', rarity: GachaRarity.superRare),
+      GachaItem(
+        id: 'sr_tower_001',
+        nameKr: '희귀한 Tower A',
+        rarity: GachaRarity.superRare,
+      ),
+      GachaItem(
+        id: 'sr_tower_002',
+        nameKr: '희귀한 Tower B',
+        rarity: GachaRarity.superRare,
+      ),
+      GachaItem(
+        id: 'sr_tower_003',
+        nameKr: '희귀한 Tower C',
+        rarity: GachaRarity.superRare,
+      ),
+      GachaItem(
+        id: 'sr_tower_004',
+        nameKr: '희귀한 Tower D',
+        rarity: GachaRarity.superRare,
+      ),
       // R (35%)
-      GachaItem(id: 'r_tower_001', nameKr: '우수한 Tower A', rarity: GachaRarity.rare),
-      GachaItem(id: 'r_tower_002', nameKr: '우수한 Tower B', rarity: GachaRarity.rare),
-      GachaItem(id: 'r_tower_003', nameKr: '우수한 Tower C', rarity: GachaRarity.rare),
-      GachaItem(id: 'r_tower_004', nameKr: '우수한 Tower D', rarity: GachaRarity.rare),
-      GachaItem(id: 'r_tower_005', nameKr: '우수한 Tower E', rarity: GachaRarity.rare),
+      GachaItem(
+        id: 'r_tower_001',
+        nameKr: '우수한 Tower A',
+        rarity: GachaRarity.rare,
+      ),
+      GachaItem(
+        id: 'r_tower_002',
+        nameKr: '우수한 Tower B',
+        rarity: GachaRarity.rare,
+      ),
+      GachaItem(
+        id: 'r_tower_003',
+        nameKr: '우수한 Tower C',
+        rarity: GachaRarity.rare,
+      ),
+      GachaItem(
+        id: 'r_tower_004',
+        nameKr: '우수한 Tower D',
+        rarity: GachaRarity.rare,
+      ),
+      GachaItem(
+        id: 'r_tower_005',
+        nameKr: '우수한 Tower E',
+        rarity: GachaRarity.rare,
+      ),
       // N (50%)
-      GachaItem(id: 'n_tower_001', nameKr: '일반 Tower A', rarity: GachaRarity.normal),
-      GachaItem(id: 'n_tower_002', nameKr: '일반 Tower B', rarity: GachaRarity.normal),
-      GachaItem(id: 'n_tower_003', nameKr: '일반 Tower C', rarity: GachaRarity.normal),
-      GachaItem(id: 'n_tower_004', nameKr: '일반 Tower D', rarity: GachaRarity.normal),
-      GachaItem(id: 'n_tower_005', nameKr: '일반 Tower E', rarity: GachaRarity.normal),
-      GachaItem(id: 'n_tower_006', nameKr: '일반 Tower F', rarity: GachaRarity.normal),
+      GachaItem(
+        id: 'n_tower_001',
+        nameKr: '일반 Tower A',
+        rarity: GachaRarity.normal,
+      ),
+      GachaItem(
+        id: 'n_tower_002',
+        nameKr: '일반 Tower B',
+        rarity: GachaRarity.normal,
+      ),
+      GachaItem(
+        id: 'n_tower_003',
+        nameKr: '일반 Tower C',
+        rarity: GachaRarity.normal,
+      ),
+      GachaItem(
+        id: 'n_tower_004',
+        nameKr: '일반 Tower D',
+        rarity: GachaRarity.normal,
+      ),
+      GachaItem(
+        id: 'n_tower_005',
+        nameKr: '일반 Tower E',
+        rarity: GachaRarity.normal,
+      ),
+      GachaItem(
+        id: 'n_tower_006',
+        nameKr: '일반 Tower F',
+        rarity: GachaRarity.normal,
+      ),
     ];
   }
 

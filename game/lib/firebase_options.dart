@@ -29,7 +29,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDCGcPrsolaAKddtr5dzAugwZrSvSXz7wE',  // Shared API key
+    apiKey: 'AIzaSyDCGcPrsolaAKddtr5dzAugwZrSvSXz7wE', // Shared API key
     appId: '1:701294998464:android:0000000000000001',
     messagingSenderId: '701294998464',
     projectId: 'mg-games-dev',
@@ -37,7 +37,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCGZ_0nsZeP8z_hN90984lOLpBUSVgNczU',  // Shared API key
+    apiKey: 'AIzaSyCGZ_0nsZeP8z_hN90984lOLpBUSVgNczU', // Shared API key
     appId: '1:701294998464:ios:0000000000000001',
     messagingSenderId: '701294998464',
     projectId: 'mg-games-dev',
